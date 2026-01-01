@@ -2,7 +2,7 @@
  * @Author       : zhangle
  * @Date         : 2026-01-01 10:41:04
  * @LastEditors  : zhangle
- * @LastEditTime : 2026-01-01 22:09:11
+ * @LastEditTime : 2026-01-01 23:01:07
  * @Description  : happy new year
 -->
 
@@ -10,16 +10,16 @@
 
 ## Brewhouse Efficiency
 
-$ \text{Brewhouse Efficiency (\%)} = \frac{ M_\text{Actual Extract Collected}}{ M_\text{Potential Extract from Grains}} \times 100\%$
+$$ \text{Brewhouse Efficiency (\%)} = \frac{ M_\text{Actual Extract Collected}}{ M_\text{Potential Extract from Grains}} \times 100\% $$
 
 eg:
 * 10 kg of Pale Malt (Potential extract: 80%)
 * 1 kg of Crystal Malt (Potential extract: 74%)
 * 麦汁体积50L，sg = 1.050
 
-$ M_P = 10 \times 80\% + 1 \times 74\% = 8.74 kg$
+$$ M_P = 10 \times 80\% + 1 \times 74\% = 8.74 kg$$
 
-$ \eta_{brewhouse} = \frac{ M_\text{A}(6.5625)}{ M_\text{P}(8.74)} \times 100\%= 75\% $
+$$ \eta_{brewhouse} = \frac{ M_\text{A}(6.5625)}{ M_\text{P}(8.74)} \times 100\%= 75\% $$
 
 ## 度量指标
 
@@ -27,7 +27,7 @@ $ \eta_{brewhouse} = \frac{ M_\text{A}(6.5625)}{ M_\text{P}(8.74)} \times 100\%=
 *   **比重 (Specific Gravity, SG)**：指的是特定温度下，麦汁密度与纯水密度的比值（纯水为 1.000），直观反映了麦汁的“浓度”。
 *   **糖度 (Plato/Brix, $^\circ \text{P}$)**：它是一个质量百分比。例如 $12^\circ \text{P}$ 意味着在 $100\,\text{g}$ 的麦汁里，有 $12\,\text{g}$ 是可溶性糖分。
 
-常用经验公式将比重转换为糖度：$ P \approx (SG - 1.000) \times 250$
+常用经验公式将比重转换为糖度：$$ P \approx (SG - 1.000) \times 250 $$
 
 ## 麦汁含糖量计算公式
 
@@ -87,11 +87,11 @@ $$E_\text{煮沸后} = \frac{M_{\text{act}}(最终麦汁体积, SG_{\text{煮沸
 
 经过多次酿造，已经得到如下平均值
 
-mash_extraction_efficiency糖化后提取率
-sparge_extraction_efficiency洗糟后提取率
-grain_absorption_rate谷物吸收率
-post_boil_efficiency熬煮后效率
-boil_off_volume熬煮蒸发量
+* mash_extraction_efficiency糖化后提取率
+* sparge_extraction_efficiency洗糟后提取率
+* grain_absorption_rate谷物吸收率
+* post_boil_efficiency熬煮后效率
+* boil_off_volume熬煮蒸发量
 
 这些数值由brew/brewing_metrics_summary.csv读取, 现在根据以上数据进行设计：
 
