@@ -2,11 +2,11 @@
  * @Author       : zhangle
  * @Date         : 2026-01-01 10:41:04
  * @LastEditors  : zhangle
- * @LastEditTime : 2026-01-01 23:01:07
+ * @LastEditTime : 2026-01-01 23:03:29
  * @Description  : happy new year
 -->
 
-# 数据分析及处理
+# 酿造数据分析及配方设计
 
 ## Brewhouse Efficiency
 
@@ -27,7 +27,9 @@ $$ \eta_{brewhouse} = \frac{ M_\text{A}(6.5625)}{ M_\text{P}(8.74)} \times 100\%
 *   **比重 (Specific Gravity, SG)**：指的是特定温度下，麦汁密度与纯水密度的比值（纯水为 1.000），直观反映了麦汁的“浓度”。
 *   **糖度 (Plato/Brix, $^\circ \text{P}$)**：它是一个质量百分比。例如 $12^\circ \text{P}$ 意味着在 $100\,\text{g}$ 的麦汁里，有 $12\,\text{g}$ 是可溶性糖分。
 
-常用经验公式将比重转换为糖度：$$ P \approx (SG - 1.000) \times 250 $$
+常用经验公式将比重转换为糖度：
+
+$$ P \approx (SG - 1.000) \times 250 $$
 
 ## 麦汁含糖量计算公式
 
