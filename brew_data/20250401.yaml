@@ -1,0 +1,64 @@
+# 基础信息
+metadata:
+  date: 2025-04-01
+  recipe_name: "古斯"
+  batch_id: "20250401-A-GOSE"
+
+# 统计单位说明 (保持单位一致性)
+units:
+  weight: "kg"
+  volume: "L"
+  temperature: "C"
+  gravity: "SG"
+
+# 原料设置 (支持多种麦芽)
+ingredients:
+  total_malt_weight: 5.25
+  potential_extract: 0.78
+  additions:
+    - "碳酸氢钠: 5g (糖化20分钟加入)"
+    - "食盐: 每升2.5g"
+
+# 糖化过程
+mash:
+  strike_water: 18
+  water_grain_ratio: 3.4  # 水料比
+  target_temperature: 65
+  sparge_water: 9
+
+  # 糖化期间的定时采样数据
+  process_logs:
+    - time_min: 0
+      ph: 5.17
+      gravity: 1.037
+    - time_min: 20
+      ph: 5.05
+      gravity: 1.050
+      note: "加入碳酸氢钠5g"
+    - time_min: 40
+      ph: 5.67
+      gravity: 1.062
+
+# 关键环节测量
+measurements:
+  # 洗糟前（头道麦汁采集前，糖化结束时）
+  pre_sparge:
+    volume: 14
+    gravity: 1.069
+    ph: 5.57
+
+  # 熬煮前（收集完洗糟水后的总麦汁体积）
+  pre_boil:
+    volume: 22
+    gravity: 1.056
+
+  # 熬煮后（入发酵罐前）
+  post_boil:
+    volume: 20
+    gravity: 1.055
+    salt_total: 50  # 2.5g/L * 20L
+
+  # 发酵结束
+  final:
+    volume: null
+    gravity: null

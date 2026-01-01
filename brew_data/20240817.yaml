@@ -1,0 +1,55 @@
+# 基础信息
+metadata:
+  date: 2024-08-17
+  recipe_name: "香槟IPA"
+  batch_id: "20240817-A-IPA"
+
+# 统计单位说明 (保持单位一致性)
+units:
+  weight: "kg"
+  volume: "L"
+  temperature: "C"
+  gravity: "SG"
+
+# 原料设置 (支持多种麦芽)
+ingredients:
+  total_malt_weight: 6.5
+  potential_extract: 0.78
+
+# 糖化过程
+mash:
+  strike_water: 20
+  water_grain_ratio: 3.08  # 水料比
+  target_temperature: 63
+  sparge_water: 10
+
+  # 糖化期间的定时采样数据
+  process_logs:
+    - time_min: 20
+      ph: 5.30
+      gravity: null
+    - time_min: 40
+      ph: 5.15
+      gravity: 1.043
+
+# 关键环节测量
+measurements:
+  # 洗糟前（头道麦汁采集前，糖化结束时）
+  pre_sparge:
+    volume: 14
+    gravity: 1.057
+
+  # 熬煮前（收集完洗糟水后的总麦汁体积）
+  pre_boil:
+    volume: 25
+    gravity: 1.043
+
+  # 熬煮后（入发酵罐前）
+  post_boil:
+    volume: 23
+    gravity: 1.055
+
+  # 发酵结束
+  final:
+    volume: null
+    gravity: 1.000

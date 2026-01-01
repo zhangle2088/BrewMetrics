@@ -1,0 +1,56 @@
+# 基础信息
+metadata:
+  date: 2024-09-07
+  recipe_name: "拉格"
+  batch_id: "20240907-A-LAG"
+
+# 统计单位说明 (保持单位一致性)
+units:
+  weight: "kg"
+  volume: "L"
+  temperature: "C"
+  gravity: "SG"
+
+# 原料设置 (支持多种麦芽)
+ingredients:
+  total_malt_weight: 6.9
+  potential_extract: 0.78
+
+# 糖化过程
+mash:
+  strike_water: 22
+  water_grain_ratio: 3.19  # 水料比
+  target_temperature: 65
+  sparge_water: 10
+
+  # 糖化期间的定时采样数据
+  process_logs:
+    - time_min: 20
+      ph: 5.59
+      gravity: 1.055
+    - time_min: 40
+      ph: 5.49
+      gravity: 1.068
+
+# 关键环节测量
+measurements:
+  # 洗糟前（头道麦汁采集前，糖化结束时）
+  pre_sparge:
+    volume: 16
+    gravity: 1.068
+    ph: 5.51
+
+  # 熬煮前（收集完洗糟水后的总麦汁体积）
+  pre_boil:
+    volume: 26
+    gravity: 1.060
+
+  # 熬煮后（入发酵罐前）
+  post_boil:
+    volume: 25.5
+    gravity: 1.060
+
+  # 发酵结束
+  final:
+    volume: null
+    gravity: null

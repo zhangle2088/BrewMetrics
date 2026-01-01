@@ -1,0 +1,64 @@
+# 基础信息
+metadata:
+  date: 2024-06-29
+  recipe_name: "美式IPA"
+  batch_id: "20240629-A-IPA"
+
+# 统计单位说明 (保持单位一致性)
+units:
+  weight: "kg"
+  volume: "L"
+  temperature: "C"
+  gravity: "SG"
+
+# 原料设置 (支持多种麦芽)
+ingredients:
+  # malts:
+    # - name: "基础麦芽 (例如皮尔森/淡色大麦)"
+    #   amount: 7.0
+    #   potential_extract: 0.80
+    # - name: "焦香麦芽 (例如Crystal 40)"
+    #   amount: 0.88
+    #   potential_extract: 0.70
+    # # - name: "其他麦芽"
+    # #   amount: 0.0
+  total_malt_weight: 7.88
+  potential_extract: 0.78
+
+# 糖化过程
+mash:
+  strike_water: 24
+  water_grain_ratio: 3.23  # 水料比
+  target_temperature: 68
+  sparge_water: 7
+  
+  # 糖化期间的定时采样数据
+  process_logs:
+    - time_min: 20
+      ph: 5.28
+      gravity: null
+    - time_min: 40
+      ph: 5.02
+      gravity: 1.058
+
+# 关键环节测量
+measurements:
+  # 洗糟前（头道麦汁采集前，糖化结束时）
+  pre_sparge:
+    volume: 18
+    gravity: 1.073
+    
+  # 熬煮前（收集完洗糟水后的总麦汁体积）
+  pre_boil:
+    volume: 26
+    gravity: 1.058
+    
+  # 熬煮后（入发酵罐前）
+  post_boil:
+    volume: 24
+    gravity: 1.064
+    
+  # 发酵结束
+  final:
+    volume: 20
+    gravity: 1.014

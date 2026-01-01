@@ -1,0 +1,63 @@
+# 基础信息
+metadata:
+  date: 2024-11-16
+  recipe_name: "大麦酒"
+  batch_id: "20241116-A-BW"
+
+# 统计单位说明 (保持单位一致性)
+units:
+  weight: "kg"
+  volume: "L"
+  temperature: "C"
+  gravity: "SG"
+
+# 原料设置 (支持多种麦芽)
+ingredients:
+  total_malt_weight: 8.0
+  potential_extract: 0.78
+  notes: "对辊间距1.4mm, 小苏打8g"
+
+# 糖化过程
+mash:
+  strike_water: 24
+  water_grain_ratio: 3.0  # 水料比
+  target_temperature: 65
+  sparge_water: 6
+
+  # 糖化期间的定时采样数据
+  process_logs:
+    - time: "初始"
+      ph: 5.82
+      gravity: 1.034
+      note: "乳酸2ml后"
+    - time_min: 20
+      ph: 5.58
+      gravity: 1.044
+    - time_min: 40
+      ph: 5.67
+      gravity: 1.055
+    - time_min: 60
+      ph: 5.64
+      gravity: 1.065
+
+# 关键环节测量
+measurements:
+  # 洗糟前（头道麦汁采集前，糖化结束时）
+  pre_sparge:
+    volume: 17
+    gravity: null
+
+  # 熬煮前（收集完洗糟水后的总麦汁体积）
+  pre_boil:
+    volume: 24
+    gravity: 1.058
+
+  # 熬煮后（入发酵罐前）
+  post_boil:
+    volume: 21
+    gravity: 1.084
+
+  # 发酵结束
+  final:
+    volume: null
+    gravity: null

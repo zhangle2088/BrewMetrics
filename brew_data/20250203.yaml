@@ -1,0 +1,63 @@
+# 基础信息
+metadata:
+  date: 2025-02-03
+  recipe_name: "浑浊IPA"
+  batch_id: "20250203-A-HAZY"
+
+# 统计单位说明 (保持单位一致性)
+units:
+  weight: "kg"
+  volume: "L"
+  temperature: "C"
+  gravity: "SG"
+
+# 原料设置 (支持多种麦芽)
+ingredients:
+  total_malt_weight: 8.0
+  potential_extract: 0.78
+  notes: "间距1.2mm效果好, PH稳定剂10g"
+
+# 糖化过程
+mash:
+  strike_water: 25.5
+  water_grain_ratio: 3.2  # 水料比
+  target_temperature: 68
+  sparge_water: 7
+
+  # 糖化期间的定时采样数据
+  process_logs:
+    - time: "初始"
+      ph: 5.40
+      gravity: null
+    - time_min: 20
+      ph: 5.24
+      gravity: 1.036
+    - time_min: 50
+      ph: 5.32
+      gravity: 1.050
+    - time_min: 80
+      ph: 5.32
+      gravity: 1.056
+      note: "体积19L"
+
+# 关键环节测量
+measurements:
+  # 洗糟前（头道麦汁采集前，糖化结束时）
+  pre_sparge:
+    volume: 19
+    gravity: 1.056
+
+  # 熬煮前（收集完洗糟水后的总麦汁体积）
+  pre_boil:
+    volume: 25.5
+    gravity: 1.060
+
+  # 熬煮后（入发酵罐前）
+  post_boil:
+    volume: 24
+    gravity: 1.065
+
+  # 发酵结束
+  final:
+    volume: null
+    gravity: null
