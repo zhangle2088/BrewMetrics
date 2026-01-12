@@ -2,13 +2,13 @@
  * @Author       : zhangle
  * @Date         : 2026-01-01 10:41:04
  * @LastEditors  : zhangle
- * @LastEditTime : 2026-01-12 13:50:32
+ * @LastEditTime : 2026-01-12 14:03:20
  * @Description  : happy new year
 -->
 
 # 酿造数据分析及配方设计
 
-## 前言
+## 0 前言
 
 很多精酿爱好者往往对克隆配方乐此不疲，但很多朋友包括我自己在内，我们对设备的掌握和对酿造过程的理解，真的能够支持我们去“克隆”一款我们感兴趣的配方吗？在我有限的酿造经历中，尝试过各种不同辅助软件进行配方设计，但最终结果经常与我预期存在一定差距，大多数时候我只能被迫忽视这种“随机偏差”。但我始终认为酿造过程不是玄学，不是估计，从麦芽厂商给出的定量报告、到配方中的各种指标，还有几乎每名酿造者都会测量记录的各种过程数据，都在传达着一个核心概念，那就配方是可以被精确实现的，或者说是酿造过程是可以被精准控制的。即便一次结果与预期不符，也能利用定量数据复盘整个过程，知道是哪个环节出了问题，找到原因采取措施，下次得到符合预期的变化。我不仅爱产出的啤酒，也爱设计和酿造的过程。于是我计划用我积累的一点数据结合粗浅的“理论”分析，自娱自乐式的开展一些有趣尝试，使得酿造不只是被动接受，而是通过反思和分析主动去控制和改进。
 
@@ -17,11 +17,11 @@
 很多软件需要填写酿造效率数值，这个数值本身就属于“魔法值”，需要预估，酿造效率本身又和麦芽种类、研磨程度、糖化设备、洗糟方法等等条件有关，导致初始比重经常和预期存在不可忽视的偏差。本项目，规范了数据记录格式，具备历史数据自动分析和可视化功能，支持基于历史数据辅助进行配方设计，其自动计算得到的每阶段比重预估值，可以用于和实际过程测量值进行比较。方便我定量监控好分析酿造过程，尽早发现可能存在的问题。如果大家感兴趣可以尝试积累一些酿造数据，进行分析得到与自己设备相符的模型，由于水平和业余时间有限，还存很多问题，也欢迎各位自行改造。
 
 
-## 指标定义
+## 1 指标定义
 
-### Brewhouse Efficiency
+### 1.1 Brewhouse Efficiency
 
-$$ \text{Brewhouse Efficiency (\%)} = \frac{ M_\text{Actual Extract Collected}}{ M_\text{Potential Extract from Grains}} \times 100\% $$
+$$ \text{Brewhouse Efficiency\%)} = \frac{ M_\text{Actual Extract Collected}}{ M_\text{Potential Extract from Grains}} \times 100\% $$
 
 eg:
 * 10 kg of Pale Malt (Potential extract: 80%)
@@ -32,7 +32,7 @@ $$ M_P = 10 \times 80\% + 1 \times 74\% = 8.74 kg$$
 
 $$ \eta_{brewhouse} = \frac{ M_\text{A}(6.5625)}{ M_\text{P}(8.74)} \times 100\%= 75\% $$
 
-### 度量指标
+### 1.2 度量指标
 
 首先，我们需要明确两个基础度量指标：
 *   **比重 (Specific Gravity, SG)**：指的是特定温度下，麦汁密度与纯水密度的比值（纯水为 1.000），直观反映了麦汁的“浓度”。
@@ -42,13 +42,13 @@ $$ \eta_{brewhouse} = \frac{ M_\text{A}(6.5625)}{ M_\text{P}(8.74)} \times 100\%
 
 $$ P \approx (SG - 1.000) \times 250 $$
 
-### 麦汁含糖量计算公式
+### 1.3 麦汁含糖量计算公式
 
-将所有步骤整合成一个最终公式。已知麦汁体积为 $V$ (单位：$\text{L}$)，比重为 $SG$：
+将所有步骤整合成一个最终公式。已知麦汁体积为 $V$ (单位： $\text{L}$)，比重为 $SG$：
 
 $$M_{\text{act}}(V, SG) =  M_{\text{wort}} * P / 100$$
 
-其中：麦汁总重量$M_{\text{wort}} = 体积(V) \times 比重(SG)$, 带入经验比重糖度换算经验公式可得：
+其中：麦汁总重量 $M_{\text{wort}} = \text{体积}(V) \times \text{比重}(SG)$，带入经验比重糖度换算经验公式可得：
 
 $$ M_{\text{act}}(V, SG) = 2.5 \times (SG - 1) \times V \times SG $$
 
@@ -66,13 +66,13 @@ $$ M_{\text{act}}(V, SG) = 2.5 \times (SG - 1) \times V \times SG $$
 **直接代入通用公式验证：**
 $$M_{act} = 2.5 \times 0.05 \times 50 \times 1.050  = 6.5625\,\text{kg}$$
 
-## 效率分析
+## 2 效率分析
 
 传统的酿造效率采用最终进罐比重、体积计算整体效率，在整体效率测量的同时，方便对整个酿造过程进行监控和改进，我们加入了两个提取系数和一个效率，可以帮助大家更加准确的掌握各个环节的实时效果，方便后续复盘，找出可能得改进之处。
 
-### 洗糟前（糖化）提取系数
+### 2.1 洗糟前（糖化）提取系数
 
-我们在糖化结束后测量麦汁比重值$SG_\text{洗糟前}$，使用如下公式计洗糟前（糖化）提取系数：
+我们在糖化结束后测量麦汁比重值 $SG_\text{洗糟前}$，使用如下公式计洗糟前（糖化）提取系数：
 
 $$\eta_{\text{洗糟前}} = \frac{M_{\text{act}}(\text{糖化锅初始水量} , SG_{\text{洗糟前}})}{\sum (\text{麦芽重量} \times \text{理论浸出率})}$$
 
@@ -80,15 +80,15 @@ $$\eta_{\text{洗糟前}} = \frac{M_{\text{act}}(\text{糖化锅初始水量} , 
 
 这个指标综合反映了糖化过程的质量，衡量的是“淀粉变糖”的效率，即麦芽中的淀粉在酶的作用下转化成了多少可溶性糖。在糖化结束后一部分淀粉无法转化为糖分，未溶解在麦汁中，这是提取系数小于1的主要原因。注意使用糖化锅初始水量计算，无需测量糖化后体积（容易受麦芽使用量和麦床残留麦汁干扰）。度量了从麦芽到麦汁的整体过程效率，受粉碎程度、糖化温度、PH值等因素影响。
 
-### 洗糟后提取系数
+### 2.2 洗糟后提取系数
 
-完成洗糟后测量麦汁，得到当前比重值$SG_\text{洗糟后}$，使用如下公式计算洗糟后提取系数：
+完成洗糟后测量麦汁，得到当前比重值 $SG_\text{洗糟后}$，使用如下公式计算洗糟后提取系数：
 
 $$\eta_\text{洗糟后} = \frac{M_{\text{act}}(\text{(糖化锅初始水量+洗糟水量)} , SG_{\text{洗糟后}})}{\sum (\text{麦芽重量} \times \text{理论浸出率})}$$
 
 麦汁的糖分会残留在麦床中，而洗糟过程的目的就是从麦床将残留的糖“冲洗”出来。但由于最终麦糟中还有残留糖分，也会造成效率损失。这个指标度量了糖化环节加上洗糟环节的总效率，受第一阶段提取率，和设备（麦床）形状、洗糟水温度、洗糟时间等因素影响。注意这个指标会大于1，因为比重使用了麦汁比重，但水量使用了总用水量，这导致绝对值本身没有物理意义。这样选择的原因还是为了进行内部比较与工艺控制，尽量排除误差较大的洗糟后麦汁体积作为输入。
 
-### 煮沸后效率
+### 2.3 煮沸后效率
 
 完成煮沸后测量麦汁，得到当前比重值$SG_\text{煮沸后}$，使用如下公式计算煮沸后效率：
 
@@ -96,21 +96,23 @@ $$E_\text{煮沸后} = \frac{M_{\text{act}}(最终麦汁体积, SG_{\text{煮沸
 
 注意，这个指标使用了效率而不是提取率，计算时使用了最终糖化锅内麦汁体积，与进罐体积相比，暂时未考虑锅底残留、管路死角等损耗，用于衡量进罐前整体效率。
 
-## 配方设计
+## 3 配方设计
 
-### 历史数据获取
+### 3.1 历史数据获取
 
-经过多次酿造，后运行BrewMetrics/batch_efficiency_analyzer.ipynb得到如下平均值（存储在brew/brewing_metrics_summary.csv中）
+经过多次酿造，后运行BrewMetrics/batch_efficiency_analyzer.ipynb，可计算得到如下经验值（存储在brew/brewing_metrics_summary.csv中）
 
-pre_sparge_coefficient(洗糟前提取系数)
-post_sparge_coefficient(洗糟后提取系数)
-grain_absorption_rate(谷物吸收率)
-post_boil_efficiency(熬煮后效率)
-boil_off_volume(熬煮蒸发量)
+- pre_sparge_coefficient(洗糟前提取系数)
+- post_sparge_coefficient(洗糟后提取系数)
+- grain_absorption_rate(谷物吸收率)
+- post_boil_efficiency(熬煮后效率)
+- boil_off_volume(熬煮蒸发量)
 
-### 开展配方设计
+### 3.2 开展配方设计
 
-现在根据以上数据进行设计，过程为输入为：煮沸后目标麦汁，目标比重，假设理论浸出率已知固定（支持按麦芽种类填写），水料比固定
+根据以上数据进行设计，按以下过程可开展配方设计
+
+输入为：煮沸后目标麦汁，目标比重，假设理论浸出率已知固定（支持按麦芽种类填写），水料比固定
 
 1. 由煮沸后效率和浸出率，可计算得到需要麦芽的重量total_malt_weight
 2. 根据水料比、total_malt_weight，得到糖化用水量strike_water
@@ -118,9 +120,9 @@ boil_off_volume(熬煮蒸发量)
 4. 根据pre_sparge_coefficient、strike_water、total_malt_weight、理论浸出率，可以估计出糖化后比重，用于过程监控
 5. 根据post_sparge_coefficient、strike_water、sparge_water、total_malt_weight、理论浸出率，可以估计洗糟后比重，用于过程监控
    
-## 酿造实例
+## 4 酿造实例
 
-### 配方设计
+### 4.1 配方设计
 
 按如下目标和系数开展配方设计：
 
@@ -140,40 +142,34 @@ boil_off_volume(熬煮蒸发量)
 计算结果（保留适当位数）
 
 1) 目标进罐可溶糖质量（M_act_final）
-- M_act_final = 2.5 × (SG − 1) × V × SG
-- = 2.5 × 0.06 × 22 × 1.06 = 3.498 kg
+- M_act_final = 2.5 × (SG − 1) × V × SG = 2.5 × 0.06 × 22 × 1.06 = 3.498 kg
 
-1) 需要的总麦芽量 total_malt_weight
-- total_malt_weight = M_act_final / (理论浸出率 × post_boil_efficiency)
-- = 3.498 / (0.78 × 0.6869) ≈ 6.53 kg
+2) 需要的总麦芽量 total_malt_weight
+- total_malt_weight = M_act_final / (理论浸出率 × post_boil_efficiency) = 3.498 / (0.78 × 0.6869) ≈ 6.53 kg
 
-1) 糖化用水 strike_water
+3) 糖化用水 strike_water
 - strike_water = W/G × total_malt_weight = 3.2 × 6.53 ≈ 20.90 L
 
-1) 熬煮前体积 pre_boil_volume
+4) 熬煮前体积 pre_boil_volume
 - pre_boil_volume = V_final + boil_off_volume = 22.00 + 1.70 = 23.70 L
 
-1) 谷物吸水量
+5) 谷物吸水量
 - grain_absorption = 0.862 × total_malt_weight ≈ 0.862 × 6.53 ≈ 5.63 L
 
-1) 洗糟水量 sparge_water
-- sparge_water = pre_boil_volume − strike_water + grain_absorption
-- = 23.70 − 20.90 + 5.63 ≈ 8.43 L
-
+6) 洗糟水量 sparge_water
+- sparge_water = pre_boil_volume − strike_water + grain_absorption = 23.70 − 20.90 + 5.63 ≈ 8.43 L
 - 总用水 ≈ strike + sparge ≈ 20.90 + 8.43 = 29.33 L
 
 7) 理论总可溶糖（麦芽 × 理论浸出率）
 - total_theoretical_sugar = 6.53 × 0.78 ≈ 5.094 kg
 
 8) 糖化结束（洗糟前）可溶糖与预测比重（用于过程监控）
-- M_act_pre ≈ pre_sparge_coefficient × total_theoretical_sugar
-- = 0.7077 × 5.094 ≈ 3.605 kg
+- M_act_pre ≈ pre_sparge_coefficient × total_theoretical_sugar = 0.7077 × 5.094 ≈ 3.605 kg
 - 求解 2.5·(SG_pre − 1)·V_strike·SG_pre = M_act_pre，V_strike = strike_water ≈ 20.90 L
 - 得 SG_pre ≈ 1.0648
 
 9) 洗糟后可溶糖与预测比重（用于过程监控）
-- M_act_post ≈ post_sparge_coefficient × total_theoretical_sugar
-- = 0.7947 × 5.094 ≈ 4.048 kg
+- M_act_post ≈ post_sparge_coefficient × total_theoretical_sugar = 0.7947 × 5.094 ≈ 4.048 kg
 - 用 V_total = strike + sparge ≈ 29.33 L 解得 SG_post ≈ 1.0520
 
 关键汇总（近似）
@@ -186,6 +182,6 @@ boil_off_volume(熬煮蒸发量)
 - 预计糖化结束比重（pre-sparge）：≈ 1.065
 - 预计洗糟后比重（post-sparge）：≈ 1.052
 
-### 实际酿造结果
+### 4.2 实际酿造结果
 
-## 分析及结论
+## 5 分析及结论
