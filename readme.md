@@ -2,7 +2,7 @@
  * @Author       : zhangle
  * @Date         : 2026-01-01 10:41:04
  * @LastEditors  : zhangle
- * @LastEditTime : 2026-01-12 14:04:38
+ * @LastEditTime : 2026-01-12 14:12:23
  * @Description  : happy new year
 -->
 
@@ -19,7 +19,7 @@
 
 ## 1 指标定义
 
-### 1.1 Brewhouse Efficiency
+### 1.1 Brewhouse Efficiency(下文与此指标无关，仅参考)
 
 $$ \text{Brewhouse Efficiency\%)} = \frac{ M_\text{Actual Extract Collected}}{ M_\text{Potential Extract from Grains}} \times 100\% $$
 
@@ -36,7 +36,7 @@ $$ \eta_{brewhouse} = \frac{ M_\text{A}(6.5625)}{ M_\text{P}(8.74)} \times 100\%
 
 首先，我们需要明确两个基础度量指标：
 *   **比重 (Specific Gravity, SG)**：指的是特定温度下，麦汁密度与纯水密度的比值（纯水为 1.000），直观反映了麦汁的“浓度”。
-*   **糖度 (Plato/Brix, $^\circ \text{P}$)**：它是一个质量百分比。例如 $12^\circ \text{P}$ 意味着在 $100\,\text{g}$ 的麦汁里，有 $12\,\text{g}$ 是可溶性糖分。
+*   **糖度 (Plato/Brix, $^\circ \text{P}$)**：它是一个质量百分比。例如 $12^\circ \text{P}$ 意味着在 $100g$ 的麦汁里，有 $12g$ 是可溶性糖分。
 
 常用经验公式将比重转换为糖度：
 
@@ -86,7 +86,7 @@ $$\eta_{\text{洗糟前}} = \frac{M_{\text{act}}(\text{糖化锅初始水量} , 
 
 $$\eta_\text{洗糟后} = \frac{M_{\text{act}}(\text{(糖化锅初始水量+洗糟水量)} , SG_{\text{洗糟后}})}{\sum (\text{麦芽重量} \times \text{理论浸出率})}$$
 
-麦汁的糖分会残留在麦床中，而洗糟过程的目的就是从麦床将残留的糖“冲洗”出来。但由于最终麦糟中还有残留糖分，也会造成效率损失。这个指标度量了糖化环节加上洗糟环节的总效率，受第一阶段提取率，和设备（麦床）形状、洗糟水温度、洗糟时间等因素影响。注意这个指标会大于1，因为比重使用了麦汁比重，但水量使用了总用水量，这导致绝对值本身没有物理意义。这样选择的原因还是为了进行内部比较与工艺控制，尽量排除误差较大的洗糟后麦汁体积作为输入。
+麦汁的糖分会残留在麦床中，而洗糟过程的目的就是从麦床将残留的糖“冲洗”出来。但由于最终麦糟中还有残留糖分，也会造成效率损失。这个指标度量了糖化环节加上洗糟环节的总效率，受第一阶段提取率，和设备（麦床）形状、洗糟水温度、洗糟时间等因素影响。水量使用了总用水量，这导致绝对值本身没有物理意义，这样选择的原因是为了进行内部比较与工艺控制，尽量排除误差较大的洗糟后麦汁体积作为输入。
 
 ### 2.3 煮沸后效率
 
@@ -94,19 +94,19 @@ $$\eta_\text{洗糟后} = \frac{M_{\text{act}}(\text{(糖化锅初始水量+洗�
 
 $$E_\text{煮沸后} = \frac{M_{\text{act}}(最终麦汁体积, SG_{\text{煮沸后}})}{\sum (\text{麦芽重量} \times \text{理论浸出率})}$$
 
-注意，这个指标使用了效率而不是提取率，计算时使用了最终糖化锅内麦汁体积，与进罐体积相比，暂时未考虑锅底残留、管路死角等损耗，用于衡量进罐前整体效率。
+计算时使用了最终糖化锅内麦汁体积，与进罐体积相比，暂时未考虑锅底残留、管路死角等损耗，用于衡量进罐前整体效率。
 
 ## 3 配方设计
 
 ### 3.1 历史数据获取
 
-经过多次酿造，后运行BrewMetrics/batch_efficiency_analyzer.ipynb，可计算得到如下经验值（存储在brew/brewing_metrics_summary.csv中）
+经过多次酿造并记录数据(brew_data)，运行BrewMetrics/batch_efficiency_analyzer.ipynb，可计算得到如下经验值（存储在brewing_metrics _summary.csv中）
 
-- pre_sparge_coefficient(洗糟前提取系数)
-- post_sparge_coefficient(洗糟后提取系数)
-- grain_absorption_rate(谷物吸收率)
-- post_boil_efficiency(熬煮后效率)
-- boil_off_volume(熬煮蒸发量)
+- pre_sparge_coefficient: 洗糟前提取系数
+- post_sparge_coefficient: 洗糟后提取系数
+- grain_absorption_rate: 谷物吸收率
+- post_boil_efficiency: 熬煮后效率
+- boil_off_volume: 熬煮蒸发量
 
 ### 3.2 开展配方设计
 
@@ -139,36 +139,36 @@ $$E_\text{煮沸后} = \frac{M_{\text{act}}(最终麦汁体积, SG_{\text{煮沸
 - 水料比 W/G = 3.2 L/kg
 - 理论浸出率 = 0.78
 
-计算结果（保留适当位数）
+计算结果（保留适当位数, 以下过程已在recipe_design.ipynb中实现自动化计算，此处计算过程仅用于演示）
 
 1) 目标进罐可溶糖质量（M_act_final）
 - M_act_final = 2.5 × (SG − 1) × V × SG = 2.5 × 0.06 × 22 × 1.06 = 3.498 kg
 
-2) 需要的总麦芽量 total_malt_weight
+1) 需要的总麦芽量 total_malt_weight
 - total_malt_weight = M_act_final / (理论浸出率 × post_boil_efficiency) = 3.498 / (0.78 × 0.6869) ≈ 6.53 kg
 
-3) 糖化用水 strike_water
+1) 糖化用水 strike_water
 - strike_water = W/G × total_malt_weight = 3.2 × 6.53 ≈ 20.90 L
 
-4) 熬煮前体积 pre_boil_volume
+1) 熬煮前体积 pre_boil_volume
 - pre_boil_volume = V_final + boil_off_volume = 22.00 + 1.70 = 23.70 L
 
-5) 谷物吸水量
+1) 谷物吸水量
 - grain_absorption = 0.862 × total_malt_weight ≈ 0.862 × 6.53 ≈ 5.63 L
 
-6) 洗糟水量 sparge_water
+1) 洗糟水量 sparge_water
 - sparge_water = pre_boil_volume − strike_water + grain_absorption = 23.70 − 20.90 + 5.63 ≈ 8.43 L
 - 总用水 ≈ strike + sparge ≈ 20.90 + 8.43 = 29.33 L
 
-7) 理论总可溶糖（麦芽 × 理论浸出率）
+1) 理论总可溶糖（麦芽 × 理论浸出率）
 - total_theoretical_sugar = 6.53 × 0.78 ≈ 5.094 kg
 
-8) 糖化结束（洗糟前）可溶糖与预测比重（用于过程监控）
+1) 糖化结束（洗糟前）可溶糖与预测比重（用于过程监控）
 - M_act_pre ≈ pre_sparge_coefficient × total_theoretical_sugar = 0.7077 × 5.094 ≈ 3.605 kg
 - 求解 2.5·(SG_pre − 1)·V_strike·SG_pre = M_act_pre，V_strike = strike_water ≈ 20.90 L
 - 得 SG_pre ≈ 1.0648
 
-9) 洗糟后可溶糖与预测比重（用于过程监控）
+1) 洗糟后可溶糖与预测比重（用于过程监控）
 - M_act_post ≈ post_sparge_coefficient × total_theoretical_sugar = 0.7947 × 5.094 ≈ 4.048 kg
 - 用 V_total = strike + sparge ≈ 29.33 L 解得 SG_post ≈ 1.0520
 
