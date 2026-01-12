@@ -2,7 +2,7 @@
  * @Author       : zhangle
  * @Date         : 2026-01-01 10:41:04
  * @LastEditors  : zhangle
- * @LastEditTime : 2026-01-12 14:03:20
+ * @LastEditTime : 2026-01-12 14:04:38
  * @Description  : happy new year
 -->
 
@@ -90,7 +90,7 @@ $$\eta_\text{洗糟后} = \frac{M_{\text{act}}(\text{(糖化锅初始水量+洗�
 
 ### 2.3 煮沸后效率
 
-完成煮沸后测量麦汁，得到当前比重值$SG_\text{煮沸后}$，使用如下公式计算煮沸后效率：
+完成煮沸后测量麦汁，得到当前比重值 $SG_\text{煮沸后}$，使用如下公式计算煮沸后效率：
 
 $$E_\text{煮沸后} = \frac{M_{\text{act}}(最终麦汁体积, SG_{\text{煮沸后}})}{\sum (\text{麦芽重量} \times \text{理论浸出率})}$$
 
