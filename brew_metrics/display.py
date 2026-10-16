@@ -59,7 +59,13 @@ def show_batch_detail(record, efficiencies):
     info_table.add_row("配方", str(metadata.get("recipe_name", "")))
     info_table.add_row("批次号", str(metadata.get("batch_id", "")))
     info_table.add_row("麦芽重量(kg)", _fmt(ingredients.get("total_malt_weight")))
-    info_table.add_row("理论浸出率", _fmt(ingredients.get("potential_extract")))
+    info_table.add_row("理论浸出率", _fmt(efficiencies.get("potential_extract")))
+    if ingredients.get("malts"):
+        for malt in ingredients["malts"]:
+            name = malt.get("name", "?")
+            amount = _fmt(malt.get("amount"), ".2f")
+            rate = _fmt(malt.get("potential_extract"), ".2f")
+            info_table.add_row(f"  麦芽 {name}", f"{amount} kg @ {rate}")
     info_table.add_row("糖化水(L)", _fmt(mash.get("strike_water"), ".1f"))
     info_table.add_row("水料比", _fmt(mash.get("water_grain_ratio")))
     info_table.add_row("目标温度(°C)", _fmt(mash.get("target_temperature"), ".0f"))
@@ -196,6 +202,8 @@ def show_recipe_summary(result):
         ("洗糟后比重", _fmt(result["pre_boil_sg"], ".4f")),
         ("煮沸后比重", _fmt(result["post_boil_sg"], ".4f")),
         ("熬煮蒸发量(L)", _fmt(result["boil_off"], ".2f")),
+        ("历史洗糟后系数(参考)", _fmt(result.get("reference_post_sparge_coefficient"), ".4f")),
+        ("历史谷物吸收率(参考)", _fmt(result.get("reference_grain_absorption_rate"), ".4f")),
     ]
     for label, val in items:
         table.add_row(label, val)
@@ -203,7 +211,7 @@ def show_recipe_summary(result):
 
     console.print("\n[bold]监控说明：[/bold]")
     console.print(f"  糖化后比重目标: {result['pre_sparge_sg']:.4f} (基于糖化水{result['strike_water']:.2f}L)")
-    console.print(f"  洗糟后比重目标: {result['pre_boil_sg']:.4f} (基于总水量{result['total_water']:.2f}L)")
+    console.print(f"  熬煮前比重目标: {result['pre_boil_sg']:.4f} (基于熬煮前体积{result['pre_boil_volume']:.2f}L，与煮沸后经蒸发量守恒)")
     console.print(f"  煮沸后比重目标: {result['post_boil_sg']:.4f} (基于煮沸后体积{result['target_volume']:.2f}L)")
 
 
@@ -225,3 +233,75 @@ def show_sugar_balance(sugar_balance):
             _fmt(row["sg"], ".4f") if row["sg"] is not None else "---",
         )
     console.print(table)
+
+
+def show_validation(result):
+    """显示数据规范校验结果"""
+    batches = result["batches"]
+    duplicates = result["duplicates"]
+
+    table = Table(title="数据规范校验")
+    table.add_column("文件")
+    table.add_column("批次号")
+    table.add_column("级别")
+    table.add_column("问题")
+
+    total_issues = 0
+    for batch in batches:
+        issues = batch["issues"]
+        if not issues:
+            table.add_row(batch["file"], str(batch["batch_id"]), "[green]OK[/green]", "-")
+            continue
+        for issue in issues:
+            total_issues += 1
+            level = issue["level"]
+            style = {"error": "red", "warning": "yellow"}.get(level, "dim")
+            table.add_row(
+                batch["file"],
+                str(batch["batch_id"]),
+                f"[{style}]{level}[/{style}]",
+                f"{issue['field']}: {issue['message']}",
+            )
+    console.print(table)
+
+    if duplicates:
+        dup_table = Table(title="疑似重复批次")
+        dup_table.add_column("批次号")
+        dup_table.add_column("原因")
+        for group in duplicates:
+            dup_table.add_row(
+                ", ".join(str(b) for b in group["batch_ids"]), group["reason"]
+            )
+        console.print(dup_table)
+    else:
+        console.print("[green]未发现重复批次[/green]")
+
+    console.print(
+        f"\n共 {len(batches)} 个批次，{total_issues} 条提示，"
+        f"{len(duplicates)} 组疑似重复"
+    )
+
+
+def show_migration(results, write):
+    """显示数据规范化迁移结果"""
+    title = "数据规范化迁移" + ("（已写入）" if write else "（演练，未改动）")
+    table = Table(title=title)
+    table.add_column("文件")
+    table.add_column("批次号")
+    table.add_column("变更")
+
+    changed = 0
+    for item in results:
+        changes = item.get("changes") or []
+        if changes:
+            changed += 1
+        table.add_row(
+            item["file"],
+            str(item.get("batch_id")),
+            "\n".join(changes) if changes else "-",
+        )
+    console.print(table)
+    console.print(
+        f"\n共 {len(results)} 个文件，{changed} 个需要变更"
+        + ("" if write else "（加 --write 才会落盘）")
+    )

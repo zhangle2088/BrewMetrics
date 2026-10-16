@@ -13,6 +13,37 @@ def calculate_potential_extract(weight: float, rate: float) -> float:
     return weight * rate
 
 
+def effective_potential_extract(ingredients: dict) -> Optional[float]:
+    """综合理论浸出率。
+
+    若给出 ``malts`` 明细且每条都带 ``potential_extract``，按重量加权求均值；
+    否则回退到 ``ingredients.potential_extract``（单一综合值）。
+    """
+    if not isinstance(ingredients, dict):
+        return None
+
+    malts = ingredients.get("malts")
+    if isinstance(malts, list) and malts:
+        total_weight = 0.0
+        weighted = 0.0
+        usable = True
+        for malt in malts:
+            if not isinstance(malt, dict):
+                usable = False
+                break
+            weight = malt.get("amount", malt.get("weight"))
+            rate = malt.get("potential_extract")
+            if weight is None or rate is None:
+                usable = False
+                break
+            total_weight += float(weight)
+            weighted += float(weight) * float(rate)
+        if usable and total_weight > 0:
+            return weighted / total_weight
+
+    return ingredients.get("potential_extract")
+
+
 def calculate_actual_extract(volume: float, sg: float) -> Optional[float]:
     """计算麦汁中的实际含糖量 (kg)"""
     if volume is None or sg is None:
@@ -97,18 +128,23 @@ def calculate_recipe(
     # 理论总糖量
     potential_total = calculate_potential_extract(malt_weight, rate)
 
-    # 糖化后比重
+    # 糖化后（洗糟前）比重：基于糖化锅初始水量
     sugar_mash = potential_total * pre_sparge_coeff
     pre_sparge_sg = estimate_sg_from_sugar(strike_water, sugar_mash)
 
-    # 洗糟后比重（基于总水量）
-    total_water = strike_water + sparge_water
-    sugar_sparge = potential_total * post_sparge_coeff
-    pre_boil_sg = estimate_sg_from_sugar(total_water, sugar_sparge)
-
-    # 煮沸后比重（验证）
+    # 煮沸后收获糖量（= 目标进罐糖量）
     sugar_boil = potential_total * post_boil_eff
     post_boil_sg = estimate_sg_from_sugar(volume, sugar_boil)
+
+    # 熬煮前（洗糟后）比重：按质量守恒反推。
+    # 煮沸过程只蒸发浓缩、不损失可溶糖，故熬煮前糖量 == 煮沸后糖量；
+    # 体积取熬煮前实际体积。如此 pre_boil_sg 与 post_boil_sg 在蒸发量下自洽。
+    # （旧实现用 post_sparge_coefficient『总水量口径』预测，与煮沸步骤不自洽，
+    #   会出现「蒸发量不足以达到目标比重」的偏差。）
+    sugar_sparge = sugar_boil
+    pre_boil_sg = estimate_sg_from_sugar(pre_boil_volume, sugar_sparge)
+
+    total_water = strike_water + sparge_water
 
     # 糖量平衡
     sugar_balance = [
@@ -129,8 +165,8 @@ def calculate_recipe(
         {
             "stage": "洗糟后收集",
             "sugar_kg": round(sugar_sparge, 3),
-            "coefficient": round(post_sparge_coeff, 4),
-            "volume_l": round(total_water, 2),
+            "coefficient": None,
+            "volume_l": round(pre_boil_volume, 2),
             "sg": round(pre_boil_sg, 4),
         },
         {
@@ -156,5 +192,9 @@ def calculate_recipe(
         "pre_boil_sg": round(pre_boil_sg, 4),
         "post_boil_sg": round(post_boil_sg, 4),
         "boil_off": round(boil_off, 2),
+        # 历史参考：洗糟后提取系数（总水量口径）与谷物吸收率，仅用于监控对比
+        "reference_post_sparge_coefficient": round(post_sparge_coeff, 4),
+        "reference_grain_absorption_rate": round(grain_absorption, 4),
+        "reference_post_boil_efficiency": round(post_boil_eff, 4),
         "sugar_balance": sugar_balance,
     }

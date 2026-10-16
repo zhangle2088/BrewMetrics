@@ -20,6 +20,7 @@ uv pip install --python ~/.venvs/brew-metrics/bin/python -e .
 酿造前: design → add
 酿造中: record (--process-log / --stage) × N
 酿造后: show → analyze → design (下一批次)
+数据维护: validate（体检）→ migrate（规范化）
 ```
 
 ---
@@ -64,16 +65,18 @@ efficiencies 关键字段：
 | 字段 | 说明 |
 |------|------|
 | pre_sparge_coefficient | 洗糟前提取系数（度量糖化效果） |
-| post_sparge_coefficient | 洗糟后提取系数（度量糖化+洗糟总效果） |
+| post_sparge_coefficient | 洗糟后提取系数（总水量口径，用于批次间横向对比） |
 | post_boil_efficiency | 熬煮后效率（度量进罐前整体效率） |
 | grain_absorption_rate | 谷物吸收率 L/kg |
 | boil_off | 熬煮蒸发量 L |
+| potential_extract | **有效**理论浸出率：有 `malts` 明细时按重量加权，否则取综合值 |
+| final_ph | 最后一次非空 PH（末条日志可能只有 note） |
 
 ---
 
 ### `brew-metrics add` — 创建新酿造记录
 
-酿造前使用，在 `brew_data/` 下生成 YAML 文件。
+酿造前使用，在 `brew_data/` 下生成 YAML 文件。文件名以 `batch_id` 命名（如 `20260525-S-SAISON.yaml`），因此同一天多批次不会互相覆盖；若 `batch_id` 已存在会报错，需 `--force` 才会覆盖。
 
 ```bash
 brew-metrics add \
@@ -147,6 +150,35 @@ CSV 列：`pre_sparge_coefficient`, `post_sparge_coefficient`, `grain_absorption
 
 ---
 
+### `brew-metrics validate` — 数据体检
+
+校验所有批次是否符合数据规范，并检测疑似重复批次。
+
+```bash
+brew-metrics validate --json
+```
+
+**JSON 输出** → `data.batches[]`（每项 `file`、`batch_id`、`issues[]`）+ `data.duplicates[]`（`batch_ids`、`reason`）
+
+issues 每条为 `{level, field, message}`，level ∈ `error` / `warning` / `info`。存在 error 或疑似重复批次时命令返回退出码 1。
+
+---
+
+### `brew-metrics migrate` — 数据规范化
+
+把数据文件统一为 canonical schema：`process_logs` 归一为 `time_min/ph/gravity`、合并旧的 `ph_readings`、`date`/`batch_id` 转字符串、文件名统一为 `<batch_id>.yaml`。
+
+```bash
+brew-metrics migrate            # 演练：只列出将发生的变更
+brew-metrics migrate --write    # 实际落盘
+```
+
+**JSON 输出** → `data.write`（是否落盘）+ `data.results[]`（每文件 `file`、`batch_id`、`target_file`、`changes[]`）
+
+幂等：已规范化的文件不产生变更。
+
+---
+
 ### `brew-metrics design` — 配方设计
 
 酿造前使用，基于历史效率数据推算原料用量和过程监控目标值。
@@ -169,17 +201,19 @@ recipe 关键字段：
 | sparge_water | 洗糟水 L |
 | total_water | 总用水 L |
 | pre_sparge_sg | 糖化后预计比重（监控目标） |
-| pre_boil_sg | 洗糟后预计比重（监控目标） |
-| post_boil_sg | 煮沸后预计比重（验证值） |
+| pre_boil_sg | 熬煮前预计比重（监控目标，与煮沸后经蒸发量守恒） |
+| post_boil_sg | 煮沸后预计比重（验证值，= 目标） |
 | pre_boil_volume | 熬煮前体积 L |
+| reference_post_sparge_coefficient | 历史洗糟后系数（总水量口径，仅参考） |
+| reference_grain_absorption_rate | 历史谷物吸收率（参考） |
 
 sugar_balance[] 四行：
 
 | stage | 说明 |
 |-------|------|
 | 理论总糖量 | malt_weight × potential_rate |
-| 糖化后提取 | × pre_sparge_coefficient |
-| 洗糟后收集 | × post_sparge_coefficient |
+| 糖化后提取 | × pre_sparge_coefficient，体积取 strike_water |
+| 洗糟后收集 | 质量守恒：糖量 = 煮沸后糖量，体积取 pre_boil_volume（coefficient 为 null） |
 | 煮沸后收获 | × post_boil_efficiency |
 
 ---
@@ -199,15 +233,22 @@ units:
   gravity: "SG"
 
 ingredients:
+  malts:                     # 可选：多麦芽明细；全部带浸出率时按重量加权
+    - name: "Pilsen Malt"
+      amount: 6.0            # kg
+      potential_extract: 0.81
+    - name: "Flaked Rice"
+      amount: 1.5
+      potential_extract: 0.81
   total_malt_weight: 7.5     # kg
-  potential_extract: 0.78    # 综合理论浸出率
+  potential_extract: 0.78    # 综合理论浸出率（malts 全带浸出率时被加权值取代）
 
 mash:
   strike_water: 23           # 糖化用水 L
   water_grain_ratio: 3.06    # 水料比
   target_temperature: 64     # °C
   sparge_water: 7            # 洗糟水 L
-  process_logs:              # 糖化过程定时采样
+  process_logs:              # 糖化过程定时采样；time_min = 距糖化开始分钟数
     - time_min: 0
       ph: 5.15
       gravity: 1.037
@@ -243,8 +284,12 @@ measurements:
 
 提取系数计算用水量选择：
 - **洗糟前系数**：使用 `strike_water`（糖化锅初始水量）
-- **洗糟后系数**：使用 `strike_water + sparge_water`（总水量）
+- **洗糟后系数**：使用 `strike_water + sparge_water`（总水量，绝对值无物理意义，仅用于批次间对比）
 - **熬煮后效率**：使用实际测量麦汁体积
+
+比重预测（`design`）：
+- **糖化后（pre_sparge_sg）**：用 `pre_sparge_coefficient` + `strike_water` 反解
+- **熬煮前（pre_boil_sg）**：用**质量守恒**——煮沸只蒸发浓缩、不丢糖，故熬煮前糖量 = 煮沸后糖量，用 `pre_boil_volume` 反解。这样它与目标煮后比重在蒸发量下自洽，不再使用总水量口径的洗糟后系数
 
 ---
 

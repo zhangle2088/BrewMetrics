@@ -15,9 +15,11 @@ from .display import (
     show_batch_detail,
     show_batch_list,
     show_efficiency_table,
+    show_migration,
     show_recipe_summary,
     show_stats_table,
     show_sugar_balance,
+    show_validation,
 )
 
 app = typer.Typer(help="BrewMetrics - 酿造效率分析工具")
@@ -67,24 +69,17 @@ def list_cmd(
 
     rows = []
     for record in records:
-        metadata = record.get("metadata", {})
-        ingredients = record.get("ingredients", {})
-        mash = record.get("mash", {})
-        process_logs = mash.get("process_logs", [])
-        final_ph = None
-        if process_logs:
-            final_ph = process_logs[-1].get("ph")
-
+        eff = data.calculate_stage_efficiencies(record)
         rows.append(
             {
-                "date": metadata.get("date"),
-                "recipe_name": metadata.get("recipe_name"),
-                "batch_id": metadata.get("batch_id"),
-                "total_malt_weight": ingredients.get("total_malt_weight"),
-                "strike_water": mash.get("strike_water"),
-                "water_grain_ratio": mash.get("water_grain_ratio"),
-                "target_temperature": mash.get("target_temperature"),
-                "final_ph": final_ph,
+                "date": eff["date"],
+                "recipe_name": eff["recipe_name"],
+                "batch_id": eff["batch_id"],
+                "total_malt_weight": eff["total_malt_weight"],
+                "strike_water": eff["strike_water"],
+                "water_grain_ratio": eff["water_grain_ratio"],
+                "target_temperature": eff["target_temperature"],
+                "final_ph": eff["final_ph"],
             }
         )
 
@@ -137,23 +132,29 @@ def add(
     water_grain_ratio: float = typer.Option(..., "--water-grain-ratio", help="水料比"),
     target_temperature: float = typer.Option(..., "--target-temperature", help="目标糖化温度 (°C)"),
     sparge_water: float = typer.Option(..., "--sparge-water", help="洗糟水量 (L)"),
+    force: bool = typer.Option(False, "--force", help="批次号已存在时强制覆盖"),
     json_output: bool = typer.Option(False, "--json", help="输出 JSON 格式"),
     data_dir: Optional[Path] = typer.Option(None, "--data-dir", help="数据目录路径"),
 ):
     """创建新酿造记录"""
     data_dir = _resolve_data_dir(data_dir)
-    result = data.create_new_record(
-        date=date_val,
-        recipe=recipe,
-        batch_id=batch_id,
-        total_malt_weight=total_malt_weight,
-        potential_extract=potential_extract,
-        strike_water=strike_water,
-        water_grain_ratio=water_grain_ratio,
-        target_temperature=target_temperature,
-        sparge_water=sparge_water,
-        data_dir=data_dir,
-    )
+    try:
+        result = data.create_new_record(
+            date=date_val,
+            recipe=recipe,
+            batch_id=batch_id,
+            total_malt_weight=total_malt_weight,
+            potential_extract=potential_extract,
+            strike_water=strike_water,
+            water_grain_ratio=water_grain_ratio,
+            target_temperature=target_temperature,
+            sparge_water=sparge_water,
+            force=force,
+            data_dir=data_dir,
+        )
+    except FileExistsError as exc:
+        print(f"错误: {exc}", file=sys.stderr)
+        raise typer.Exit(1)
 
     if json_output:
         _json_out(result)
@@ -256,3 +257,48 @@ def design(
     else:
         show_recipe_summary(result)
         show_sugar_balance(result["sugar_balance"])
+
+
+# ── validate ──────────────────────────────────────────────────────────────
+
+
+@app.command()
+def validate(
+    json_output: bool = typer.Option(False, "--json", help="输出 JSON 格式"),
+    data_dir: Optional[Path] = typer.Option(None, "--data-dir", help="数据目录路径"),
+):
+    """校验所有批次数据是否符合规范"""
+    data_dir = _resolve_data_dir(data_dir)
+    result = data.validate_records(data_dir)
+
+    if json_output:
+        _json_out(result)
+    else:
+        show_validation(result)
+
+    has_error = any(
+        issue["level"] == "error"
+        for batch in result["batches"]
+        for issue in batch["issues"]
+    )
+    if has_error or result["duplicates"]:
+        raise typer.Exit(1)
+
+
+# ── migrate ───────────────────────────────────────────────────────────────
+
+
+@app.command()
+def migrate(
+    write: bool = typer.Option(False, "--write", help="实际写入（默认仅演练）"),
+    json_output: bool = typer.Option(False, "--json", help="输出 JSON 格式"),
+    data_dir: Optional[Path] = typer.Option(None, "--data-dir", help="数据目录路径"),
+):
+    """把数据文件规范化为 canonical schema（默认演练，--write 才落盘）"""
+    data_dir = _resolve_data_dir(data_dir)
+    results = data.migrate_records(data_dir, write=write)
+
+    if json_output:
+        _json_out({"write": write, "results": results})
+    else:
+        show_migration(results, write)

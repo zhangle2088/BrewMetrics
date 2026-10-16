@@ -1,0 +1,45 @@
+metadata:
+  date: '2026-01-15'
+  recipe_name: SMaSH IPA
+  batch_id: 20260115-A-IPA
+units:
+  weight: kg
+  volume: L
+  temperature: C
+  gravity: SG
+ingredients:
+  malts:
+  - name: Maris Otter
+    supplier: Castle Malting
+    amount: 6.5
+    potential_extract: 0.81
+  total_malt_weight: 6.5
+  potential_extract: 0.78
+mash:
+  strike_water: 20.8
+  water_grain_ratio: 3.2
+  target_temperature: 67
+  sparge_water: 8.5
+  process_logs:
+  - time_min: 0
+    ph: 5.28
+  - time_min: 20
+    ph: 5.37
+    gravity: 1.054
+  - time_min: 40
+    ph: 5.35
+    gravity: 1.065
+  - note: 10分钟测量ph值过低,5.0左右，加入5gNaHCO2
+measurements:
+  pre_sparge:
+    volume: 15
+    gravity: 1.07
+  pre_boil:
+    volume: 24
+    gravity: 1.048
+  post_boil:
+    volume: 22
+    gravity: 1.053
+  final:
+    volume: null
+    gravity: null

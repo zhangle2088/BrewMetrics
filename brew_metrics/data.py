@@ -9,7 +9,9 @@ import pandas as pd
 from .calculations import (
     calculate_extraction_coefficient,
     calculate_trimmed_stats,
+    effective_potential_extract,
 )
+from .schema import find_duplicate_batches, normalize_record, validate_record
 
 BREW_DATA_DIR = Path(__file__).parent.parent / "brew_data"
 
@@ -35,6 +37,16 @@ def load_brew_records(data_dir: Path = None) -> list:
     return records
 
 
+def load_brew_records_with_paths(data_dir: Path = None) -> list:
+    """加载所有记录，返回 [(path, record)]"""
+    data_dir = data_dir or BREW_DATA_DIR
+    pairs = []
+    for yaml_file in sorted(data_dir.glob("*.yaml")):
+        with open(yaml_file, "r", encoding="utf-8") as f:
+            pairs.append((yaml_file, yaml.safe_load(f)))
+    return pairs
+
+
 def save_brew_record(record: dict, path: Path):
     """保存酿造记录到 YAML 文件"""
     with open(path, "w", encoding="utf-8") as f:
@@ -51,10 +63,22 @@ def create_new_record(
     water_grain_ratio: float,
     target_temperature: float,
     sparge_water: float,
+    force: bool = False,
     data_dir: Path = None,
 ) -> dict:
-    """创建新酿造记录并保存为 YAML"""
+    """创建新酿造记录并保存为 YAML。
+
+    文件名以 batch_id 命名（全局唯一）；若同名文件已存在则报错，
+    避免同一天多批次因日期同名而互相覆盖。``force=True`` 可强制覆盖。
+    """
     data_dir = data_dir or BREW_DATA_DIR
+    data_dir.mkdir(parents=True, exist_ok=True)
+
+    # 唯一性检查：文件名冲突，或 batch_id 已存在于其它文件
+    existing = find_batch(batch_id, data_dir)
+    if existing is not None and not force:
+        raise FileExistsError(f"批次 {batch_id} 已存在：{existing}")
+
     record = {
         "metadata": {
             "date": date,
@@ -86,8 +110,10 @@ def create_new_record(
         },
     }
 
-    filename = date.replace("-", "") + ".yaml"
+    filename = batch_id.strip() + ".yaml"
     path = data_dir / filename
+    if path.exists() and not force and find_batch(batch_id, data_dir) is None:
+        raise FileExistsError(f"文件已存在：{path}")
     save_brew_record(record, path)
     return {"file": str(path), "batch_id": batch_id}
 
@@ -167,17 +193,19 @@ def calculate_stage_efficiencies(record: dict) -> dict:
     measurements = record.get("measurements", {})
     mash = record.get("mash", {})
 
-    process_logs = mash.get("process_logs", [])
+    process_logs = mash.get("process_logs") or []
+    # 取最后一次非空 PH（末条日志可能只有 note，无 PH）
     final_ph = None
-    if process_logs:
-        final_ph = process_logs[-1].get("ph")
+    for entry in process_logs:
+        if isinstance(entry, dict) and entry.get("ph") is not None:
+            final_ph = entry["ph"]
 
     result = {
         "date": metadata.get("date"),
         "recipe_name": metadata.get("recipe_name"),
         "batch_id": metadata.get("batch_id"),
         "total_malt_weight": ingredients.get("total_malt_weight"),
-        "potential_extract": ingredients.get("potential_extract"),
+        "potential_extract": effective_potential_extract(ingredients),
         "notes": ingredients.get("notes", ""),
         "strike_water": mash.get("strike_water"),
         "water_grain_ratio": mash.get("water_grain_ratio"),
@@ -187,7 +215,7 @@ def calculate_stage_efficiencies(record: dict) -> dict:
     }
 
     total_malt = ingredients.get("total_malt_weight")
-    potential = ingredients.get("potential_extract")
+    potential = effective_potential_extract(ingredients)
     strike_water = mash.get("strike_water")
     sparge_water = mash.get("sparge_water")
 
@@ -296,3 +324,65 @@ def load_summary_metrics(csv_path: str = None) -> dict:
     csv_path = csv_path or str(BREW_DATA_DIR.parent / "brewing_metrics_summary.csv")
     df = pd.read_csv(csv_path)
     return df.iloc[0].to_dict()
+
+
+# ── 校验 / 迁移 ────────────────────────────────────────────────────────────
+
+
+def validate_records(data_dir: Path = None) -> dict:
+    """校验所有批次的数据规范，并检测疑似重复批次。"""
+    data_dir = data_dir or BREW_DATA_DIR
+    batches = []
+    records = []
+    for path, record in load_brew_records_with_paths(data_dir):
+        metadata = record.get("metadata") or {}
+        records.append(record)
+        batches.append(
+            {
+                "file": path.name,
+                "batch_id": metadata.get("batch_id"),
+                "issues": validate_record(record),
+            }
+        )
+    duplicates = find_duplicate_batches(records)
+    return {"batches": batches, "duplicates": duplicates}
+
+
+def migrate_records(data_dir: Path = None, write: bool = False) -> list:
+    """把数据文件规范化为 canonical schema。
+
+    - ``process_logs`` 统一为 ``time_min/ph/gravity``，合并 ``ph_readings``
+    - ``date``/``batch_id`` 规范为字符串
+    - 文件名统一为 ``<batch_id>.yaml``
+
+    ``write=False``（默认）仅做演练，返回将要发生的变更。
+    """
+    data_dir = data_dir or BREW_DATA_DIR
+    results = []
+    for path, record in load_brew_records_with_paths(data_dir):
+        new_record, changes = normalize_record(record)
+        batch_id = (new_record.get("metadata") or {}).get("batch_id")
+
+        target = data_dir / f"{batch_id}.yaml" if batch_id else path
+        renamed = target != path
+        if renamed and target.exists():
+            changes = [f"目标文件已存在，跳过重命名：{target.name}"] + changes
+            target = path
+            renamed = False
+
+        if renamed:
+            changes = [f"重命名 {path.name} -> {target.name}"] + changes
+
+        item = {
+            "file": path.name,
+            "batch_id": batch_id,
+            "target_file": target.name,
+            "changes": changes,
+        }
+        results.append(item)
+
+        if write and changes:
+            save_brew_record(new_record, target)
+            if renamed:
+                path.unlink()
+    return results

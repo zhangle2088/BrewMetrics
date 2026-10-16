@@ -1,0 +1,36 @@
+metadata:
+  date: '2024-06-29'
+  recipe_name: 美式IPA
+  batch_id: 20240629-A-IPA
+units:
+  weight: kg
+  volume: L
+  temperature: C
+  gravity: SG
+ingredients:
+  total_malt_weight: 7.88
+  potential_extract: 0.78
+mash:
+  strike_water: 24
+  water_grain_ratio: 3.23
+  target_temperature: 68
+  sparge_water: 7
+  process_logs:
+  - time_min: 20
+    ph: 5.28
+  - time_min: 40
+    ph: 5.02
+    gravity: 1.058
+measurements:
+  pre_sparge:
+    volume: 18
+    gravity: 1.073
+  pre_boil:
+    volume: 26
+    gravity: 1.058
+  post_boil:
+    volume: 24
+    gravity: 1.064
+  final:
+    volume: 20
+    gravity: 1.014
