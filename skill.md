@@ -4,12 +4,15 @@
 
 ## 环境准备
 
+虚拟环境放在项目外的 `~/.venvs/brew-metrics`（避免 `.venv` 落在 Synology Drive 之类的同步目录里）：
+
 ```bash
-cd /Users/zhangle/SynologyDrive/IDC/IDC_notebook/BrewMetrics
-uv pip install -e .
+cd "/Users/zhangle/agent workspace/BrewMetrics"
+uv venv --python 3.12 ~/.venvs/brew-metrics                          # 仅首次
+uv pip install --python ~/.venvs/brew-metrics/bin/python -e .
 ```
 
-安装后提供 `brew-metrics` 命令。**所有命令加 `--json` 可获取结构化 JSON 输出**，供 agent 解析。
+安装后命令行入口是 `~/.venvs/brew-metrics/bin/brew-metrics`（不在 PATH 上）。下文示例统一写作 `brew-metrics`，实际可先 `source ~/.venvs/brew-metrics/bin/activate`，或直接调用完整路径。**所有命令加 `--json` 可获取结构化 JSON 输出**，供 agent 解析。
 
 ## 工作流总览
 
