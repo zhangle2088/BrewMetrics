@@ -10,17 +10,20 @@ from typing import Optional
 import typer
 
 from . import data
-from .calculations import calculate_recipe
+from .calculations import calculate_prediction, calculate_recipe
 from .display import (
     show_batch_detail,
     show_batch_list,
     show_efficiency_table,
     show_migration,
+    show_prediction,
     show_recipe_summary,
     show_stats_table,
     show_sugar_balance,
     show_validation,
 )
+
+from . import ingredients as ingredients_db
 
 app = typer.Typer(help="BrewMetrics - 酿造效率分析工具")
 
@@ -257,6 +260,49 @@ def design(
     else:
         show_recipe_summary(result)
         show_sugar_balance(result["sugar_balance"])
+
+
+# ── predict ───────────────────────────────────────────────────────────────
+
+
+@app.command()
+def predict(
+    malts: str = typer.Option(..., "--malts", help='麦芽清单，如 "Maris Otter:6.5,Pilsen:2"'),
+    strike_water: float = typer.Option(..., "--strike-water", help="糖化用水 (L)"),
+    sparge_water: float = typer.Option(..., "--sparge-water", help="洗糟水 (L)"),
+    fallback_rate: float = typer.Option(0.78, "--fallback-rate", help="未匹配到原料库时的浸出率"),
+    metrics: Optional[str] = typer.Option(None, "--metrics", help="效率 CSV 路径"),
+    json_output: bool = typer.Option(False, "--json", help="输出 JSON 格式"),
+):
+    """正向预测：由麦芽重量+水量预测最终比重与体积"""
+    grist = []
+    for part in malts.split(","):
+        part = part.strip()
+        if not part:
+            continue
+        name, sep, kg = part.rpartition(":")
+        if not sep:
+            print(f"错误: 麦芽清单格式应为 name:kg，收到 {part!r}", file=sys.stderr)
+            raise typer.Exit(1)
+        name = name.strip()
+        try:
+            weight = float(kg)
+        except ValueError:
+            print(f"错误: 重量无法解析 {kg!r}", file=sys.stderr)
+            raise typer.Exit(1)
+        rate = ingredients_db.resolve_extract_rate(name)
+        source = "db" if rate is not None else "fallback"
+        if rate is None:
+            rate = fallback_rate
+        grist.append({"name": name, "weight": weight, "rate": rate, "source": source})
+
+    metrics_data = data.load_summary_metrics(metrics)
+    result = calculate_prediction(grist, strike_water, sparge_water, metrics_data)
+
+    if json_output:
+        _json_out({"prediction": result})
+    else:
+        show_prediction(result)
 
 
 # ── validate ──────────────────────────────────────────────────────────────

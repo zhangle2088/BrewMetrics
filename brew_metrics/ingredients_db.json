@@ -1,0 +1,2239 @@
+{
+ "source": "Brewtarget default_db.sqlite (main)",
+ "basis": "as-is fine grind",
+ "note": "potential_extract_asis = fine_yield_pct/100*(1-moisture/100)",
+ "fermentables": {
+  "acid malt": {
+   "name": "Acid Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 58.7,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.587
+  },
+  "amber malt": {
+   "name": "Amber Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 22.0,
+   "potential_extract_asis": 0.75
+  },
+  "aromatic malt": {
+   "name": "Aromatic Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 26.0,
+   "potential_extract_asis": 0.78
+  },
+  "barley hulls": {
+   "name": "Barley Hulls",
+   "supplier": null,
+   "type": "other",
+   "fine_yield_pct": 0.0,
+   "moisture_pct": 0.0,
+   "color": 0.0,
+   "potential_extract_asis": 0.0
+  },
+  "barley, flaked": {
+   "name": "Barley, Flaked",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.7
+  },
+  "barley, raw": {
+   "name": "Barley, Raw",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 60.9,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.609
+  },
+  "barley, torrefied": {
+   "name": "Barley, Torrefied",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.79
+  },
+  "biscuit malt": {
+   "name": "Biscuit Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 0.0,
+   "color": 23.0,
+   "potential_extract_asis": 0.79
+  },
+  "black (patent) malt": {
+   "name": "Black (Patent) Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 0.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.55
+  },
+  "black barley (roast barley)": {
+   "name": "Black Barley (Roast Barley)",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 0.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.55
+  },
+  "briess - 2 row brewers malt": {
+   "name": "Briess - 2 Row Brewers Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.5,
+   "moisture_pct": 4.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.7728
+  },
+  "briess - 2 row carapils malt": {
+   "name": "Briess - 2 Row Carapils Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 6.5,
+   "color": 1.5,
+   "potential_extract_asis": 0.6825
+  },
+  "briess - 6 row brewers malt": {
+   "name": "Briess - 6 Row Brewers Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 4.7,
+   "color": 1.8,
+   "potential_extract_asis": 0.7433
+  },
+  "briess - aromatic malt": {
+   "name": "Briess - Aromatic Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 2.5,
+   "color": 20.0,
+   "potential_extract_asis": 0.7508
+  },
+  "briess - ashburne mild malt": {
+   "name": "Briess - Ashburne Mild Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 3.5,
+   "color": 5.3,
+   "potential_extract_asis": 0.7623
+  },
+  "briess - black barley": {
+   "name": "Briess - Black Barley",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 6.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.517
+  },
+  "briess - black malt": {
+   "name": "Briess - Black Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 6.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.517
+  },
+  "briess - black malted barley flour": {
+   "name": "Briess - Black Malted Barley Flour",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 6.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.517
+  },
+  "briess - blackprinz malt": {
+   "name": "Briess - Blackprinz Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 6.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.7332
+  },
+  "briess - bonlander munich malt": {
+   "name": "Briess - Bonlander Munich Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 3.3,
+   "color": 10.0,
+   "potential_extract_asis": 0.7543
+  },
+  "briess - carabrown malt": {
+   "name": "Briess - Carabrown Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 2.2,
+   "color": 55.0,
+   "potential_extract_asis": 0.7726
+  },
+  "briess - caracrystal wheat malt": {
+   "name": "Briess - Caracrystal Wheat Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 4.0,
+   "color": 55.0,
+   "potential_extract_asis": 0.7488
+  },
+  "briess - carapils malt": {
+   "name": "Briess - Carapils Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 6.5,
+   "color": 1.3,
+   "potential_extract_asis": 0.6919
+  },
+  "briess - chocolate malt": {
+   "name": "Briess - Chocolate Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 6.0,
+   "color": 350.0,
+   "potential_extract_asis": 0.6862
+  },
+  "briess - dark chocolate malt": {
+   "name": "Briess - Dark Chocolate Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 60.0,
+   "moisture_pct": 5.5,
+   "color": 420.0,
+   "potential_extract_asis": 0.567
+  },
+  "briess - extra special malt": {
+   "name": "Briess - Extra Special Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 2.5,
+   "color": 130.0,
+   "potential_extract_asis": 0.7117
+  },
+  "briess - midnight wheat malt": {
+   "name": "Briess - Midnight Wheat Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 6.5,
+   "color": 550.0,
+   "potential_extract_asis": 0.5143
+  },
+  "briess - munich malt 10l": {
+   "name": "Briess - Munich Malt 10L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 3.3,
+   "color": 10.0,
+   "potential_extract_asis": 0.7349
+  },
+  "briess - munich malt 20l": {
+   "name": "Briess - Munich Malt 20L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 2.7,
+   "color": 20.0,
+   "potential_extract_asis": 0.72
+  },
+  "briess - pale ale malt": {
+   "name": "Briess - Pale Ale Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 4.0,
+   "color": 3.5,
+   "potential_extract_asis": 0.768
+  },
+  "briess - pilsen malt": {
+   "name": "Briess - Pilsen Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 80.5,
+   "moisture_pct": 4.5,
+   "color": 1.2,
+   "potential_extract_asis": 0.7688
+  },
+  "briess - roasted barley": {
+   "name": "Briess - Roasted Barley",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 5.0,
+   "color": 300.0,
+   "potential_extract_asis": 0.5225
+  },
+  "briess - rye malt": {
+   "name": "Briess - Rye Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 4.5,
+   "color": 3.7,
+   "potential_extract_asis": 0.764
+  },
+  "briess - smoked malt": {
+   "name": "Briess - Smoked Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 80.5,
+   "moisture_pct": 6.0,
+   "color": 5.0,
+   "potential_extract_asis": 0.7567
+  },
+  "briess - special roast malt": {
+   "name": "Briess - Special Roast Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 72.0,
+   "moisture_pct": 2.5,
+   "color": 50.0,
+   "potential_extract_asis": 0.702
+  },
+  "briess - victory malt": {
+   "name": "Briess - Victory Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 2.5,
+   "color": 10.0,
+   "potential_extract_asis": 0.7117
+  },
+  "briess - vienna malt": {
+   "name": "Briess - Vienna Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 77.5,
+   "moisture_pct": 3.8,
+   "color": 3.5,
+   "potential_extract_asis": 0.7456
+  },
+  "briess - wheat malt, red": {
+   "name": "Briess - Wheat Malt, Red",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 4.0,
+   "color": 2.3,
+   "potential_extract_asis": 0.7776
+  },
+  "briess - wheat malt, white": {
+   "name": "Briess - Wheat Malt, White",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 86.0,
+   "moisture_pct": 5.0,
+   "color": 2.6,
+   "potential_extract_asis": 0.817
+  },
+  "briess dme - bavarian wheat": {
+   "name": "Briess DME - Bavarian Wheat",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.95
+  },
+  "briess dme - golden light": {
+   "name": "Briess DME - Golden Light",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.95
+  },
+  "briess dme - maltoferm a-6001 (black malt extract)": {
+   "name": "Briess DME - Maltoferm A-6001 (Black Malt Extract)",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.95
+  },
+  "briess dme - pilsen light": {
+   "name": "Briess DME - Pilsen Light",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.95
+  },
+  "briess dme - sparkling amber": {
+   "name": "Briess DME - Sparkling Amber",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 10.0,
+   "potential_extract_asis": 0.95
+  },
+  "briess dme - traditional dark": {
+   "name": "Briess DME - Traditional Dark",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 30.0,
+   "potential_extract_asis": 0.95
+  },
+  "briess lme - golden light": {
+   "name": "Briess LME - Golden Light",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.78
+  },
+  "briess lme - maltoferm a-6000 (black malt extract)": {
+   "name": "Briess LME - Maltoferm A-6000 (Black Malt Extract)",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.78
+  },
+  "briess lme - munich": {
+   "name": "Briess LME - Munich",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 8.0,
+   "potential_extract_asis": 0.78
+  },
+  "briess lme - pilsen light": {
+   "name": "Briess LME - Pilsen Light",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.78
+  },
+  "briess lme - sparkling amber": {
+   "name": "Briess LME - Sparkling Amber",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 10.0,
+   "potential_extract_asis": 0.78
+  },
+  "briess lme - sweet brown rice syrup": {
+   "name": "Briess LME - Sweet Brown Rice Syrup",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.75
+  },
+  "briess lme - traditional dark": {
+   "name": "Briess LME - Traditional Dark",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 30.0,
+   "potential_extract_asis": 0.78
+  },
+  "briess lme - white sorghum syrup": {
+   "name": "Briess LME - White Sorghum Syrup",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.75
+  },
+  "brown malt (british chocolate)": {
+   "name": "Brown Malt (British Chocolate)",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 0.0,
+   "color": 65.0,
+   "potential_extract_asis": 0.7
+  },
+  "brown sugar, dark": {
+   "name": "Brown Sugar, Dark",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 100.0,
+   "moisture_pct": 0.0,
+   "color": 50.0,
+   "potential_extract_asis": 1.0
+  },
+  "brown sugar, light": {
+   "name": "Brown Sugar, Light",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 100.0,
+   "moisture_pct": 0.0,
+   "color": 8.0,
+   "potential_extract_asis": 1.0
+  },
+  "brumalt": {
+   "name": "Brumalt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 71.7,
+   "moisture_pct": 0.0,
+   "color": 23.0,
+   "potential_extract_asis": 0.717
+  },
+  "candi sugar, amber": {
+   "name": "Candi Sugar, Amber",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 78.3,
+   "moisture_pct": 0.0,
+   "color": 75.0,
+   "potential_extract_asis": 0.783
+  },
+  "candi sugar, clear": {
+   "name": "Candi Sugar, Clear",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 78.3,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.783
+  },
+  "candi sugar, dark": {
+   "name": "Candi Sugar, Dark",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 78.3,
+   "moisture_pct": 0.0,
+   "color": 275.0,
+   "potential_extract_asis": 0.783
+  },
+  "cane (beet) sugar": {
+   "name": "Cane (Beet) Sugar",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 100.0,
+   "moisture_pct": 0.0,
+   "color": 0.0,
+   "potential_extract_asis": 1.0
+  },
+  "cara-pils/dextrine": {
+   "name": "Cara-Pils/Dextrine",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 72.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.72
+  },
+  "caraamber": {
+   "name": "Caraamber",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 30.0,
+   "potential_extract_asis": 0.75
+  },
+  "carafa": {
+   "name": "Carafa",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 4.0,
+   "color": 337.0,
+   "potential_extract_asis": 0.672
+  },
+  "carafa ii": {
+   "name": "Carafa II",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 4.0,
+   "color": 412.0,
+   "potential_extract_asis": 0.672
+  },
+  "carafa iii": {
+   "name": "Carafa III",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 4.0,
+   "color": 525.0,
+   "potential_extract_asis": 0.672
+  },
+  "carafoam": {
+   "name": "Carafoam",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 72.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.72
+  },
+  "caramel/crystal malt - 10l": {
+   "name": "Caramel/Crystal Malt - 10L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 10.0,
+   "potential_extract_asis": 0.75
+  },
+  "caramel/crystal malt - 120l": {
+   "name": "Caramel/Crystal Malt - 120L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 72.0,
+   "moisture_pct": 0.0,
+   "color": 120.0,
+   "potential_extract_asis": 0.72
+  },
+  "caramel/crystal malt - 20l": {
+   "name": "Caramel/Crystal Malt - 20L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 20.0,
+   "potential_extract_asis": 0.75
+  },
+  "caramel/crystal malt - 30l": {
+   "name": "Caramel/Crystal Malt - 30L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 30.0,
+   "potential_extract_asis": 0.75
+  },
+  "caramel/crystal malt - 40l": {
+   "name": "Caramel/Crystal Malt - 40L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 0.0,
+   "color": 40.0,
+   "potential_extract_asis": 0.74
+  },
+  "caramel/crystal malt - 60l": {
+   "name": "Caramel/Crystal Malt - 60L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 0.0,
+   "color": 60.0,
+   "potential_extract_asis": 0.74
+  },
+  "caramel/crystal malt - 80l": {
+   "name": "Caramel/Crystal Malt - 80L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 0.0,
+   "color": 80.0,
+   "potential_extract_asis": 0.74
+  },
+  "caramunich malt": {
+   "name": "Caramunich Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 71.7,
+   "moisture_pct": 0.0,
+   "color": 56.0,
+   "potential_extract_asis": 0.717
+  },
+  "carared": {
+   "name": "Carared",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 20.0,
+   "potential_extract_asis": 0.75
+  },
+  "caravienne malt": {
+   "name": "Caravienne Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.9,
+   "moisture_pct": 0.0,
+   "color": 22.0,
+   "potential_extract_asis": 0.739
+  },
+  "carawheat (gr)": {
+   "name": "Carawheat (GR)",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 68.0,
+   "moisture_pct": 6.5,
+   "color": 40.0,
+   "potential_extract_asis": 0.6358
+  },
+  "chocolate malt (uk)": {
+   "name": "Chocolate Malt (UK)",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 0.0,
+   "color": 450.0,
+   "potential_extract_asis": 0.73
+  },
+  "chocolate malt (us)": {
+   "name": "Chocolate Malt (US)",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 60.0,
+   "moisture_pct": 0.0,
+   "color": 350.0,
+   "potential_extract_asis": 0.6
+  },
+  "coopers lme - amber": {
+   "name": "Coopers LME - Amber",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 16.4,
+   "potential_extract_asis": 0.78
+  },
+  "coopers lme - dark": {
+   "name": "Coopers LME - Dark",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 65.9,
+   "potential_extract_asis": 0.78
+  },
+  "coopers lme - light": {
+   "name": "Coopers LME - Light",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 3.4,
+   "potential_extract_asis": 0.78
+  },
+  "coopers lme - wheat": {
+   "name": "Coopers LME - Wheat",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 4.5,
+   "potential_extract_asis": 0.78
+  },
+  "corn sugar (dextrose)": {
+   "name": "Corn Sugar (Dextrose)",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 100.0,
+   "moisture_pct": 0.0,
+   "color": 0.0,
+   "potential_extract_asis": 1.0
+  },
+  "corn syrup": {
+   "name": "Corn Syrup",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 78.3,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.783
+  },
+  "corn, flaked": {
+   "name": "Corn, Flaked",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.8
+  },
+  "dark liquid extract": {
+   "name": "Dark Liquid Extract",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 18.0,
+   "potential_extract_asis": 0.78
+  },
+  "dememera sugar": {
+   "name": "Dememera Sugar",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 100.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 1.0
+  },
+  "dry extract (dme) - amber": {
+   "name": "Dry Extract (DME) - Amber",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 13.0,
+   "potential_extract_asis": 0.95
+  },
+  "dry extract (dme) - dark": {
+   "name": "Dry Extract (DME) - Dark",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 18.0,
+   "potential_extract_asis": 0.95
+  },
+  "dry extract (dme) - extra light": {
+   "name": "Dry Extract (DME) - Extra Light",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.95
+  },
+  "dry extract (dme) - light": {
+   "name": "Dry Extract (DME) - Light",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 8.0,
+   "potential_extract_asis": 0.95
+  },
+  "dry extract (dme) - wheat": {
+   "name": "Dry Extract (DME) - Wheat",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 8.0,
+   "potential_extract_asis": 0.95
+  },
+  "grits": {
+   "name": "Grits",
+   "supplier": null,
+   "type": "other",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.8
+  },
+  "honey": {
+   "name": "Honey",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.75
+  },
+  "honey malt": {
+   "name": "Honey Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 3.8,
+   "color": 25.0,
+   "potential_extract_asis": 0.7696
+  },
+  "invert sugar": {
+   "name": "Invert Sugar",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 100.0,
+   "moisture_pct": 0.0,
+   "color": 0.0,
+   "potential_extract_asis": 1.0
+  },
+  "liquid extract (lme) - amber": {
+   "name": "Liquid Extract (LME) - Amber",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 13.0,
+   "potential_extract_asis": 0.78
+  },
+  "liquid extract (lme) - pale": {
+   "name": "Liquid Extract (LME) - Pale",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 8.0,
+   "potential_extract_asis": 0.78
+  },
+  "liquid extract (lme) - pilsner": {
+   "name": "Liquid Extract (LME) - Pilsner",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.78
+  },
+  "liquid extract (lme) - wheat": {
+   "name": "Liquid Extract (LME) - Wheat",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 8.0,
+   "potential_extract_asis": 0.78
+  },
+  "maple syrup": {
+   "name": "Maple Syrup",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 65.2,
+   "moisture_pct": 0.0,
+   "color": 35.0,
+   "potential_extract_asis": 0.652
+  },
+  "melanoiden malt": {
+   "name": "Melanoiden Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 20.0,
+   "potential_extract_asis": 0.8
+  },
+  "mild malt": {
+   "name": "Mild Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.8
+  },
+  "milk sugar (lactose)": {
+   "name": "Milk Sugar (Lactose)",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 76.1,
+   "moisture_pct": 0.0,
+   "color": 0.0,
+   "potential_extract_asis": 0.761
+  },
+  "molasses": {
+   "name": "Molasses",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 78.3,
+   "moisture_pct": 0.0,
+   "color": 80.0,
+   "potential_extract_asis": 0.783
+  },
+  "munich malt": {
+   "name": "Munich Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 9.0,
+   "potential_extract_asis": 0.8
+  },
+  "munich malt - 10l": {
+   "name": "Munich Malt - 10L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 0.0,
+   "color": 10.0,
+   "potential_extract_asis": 0.77
+  },
+  "munich malt - 20l": {
+   "name": "Munich Malt - 20L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 0.0,
+   "color": 20.0,
+   "potential_extract_asis": 0.75
+  },
+  "muntons dme - amber": {
+   "name": "Muntons DME - Amber",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 13.0,
+   "potential_extract_asis": 0.95
+  },
+  "muntons dme - dark": {
+   "name": "Muntons DME - Dark",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 22.0,
+   "potential_extract_asis": 0.95
+  },
+  "muntons dme - extra dark": {
+   "name": "Muntons DME - Extra Dark",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 38.0,
+   "potential_extract_asis": 0.95
+  },
+  "muntons dme - extra light": {
+   "name": "Muntons DME - Extra Light",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.95
+  },
+  "muntons dme - light": {
+   "name": "Muntons DME - Light",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.95
+  },
+  "muntons dme - wheat": {
+   "name": "Muntons DME - Wheat",
+   "supplier": null,
+   "type": "dry extract",
+   "fine_yield_pct": 95.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.95
+  },
+  "muntons lme - amber": {
+   "name": "Muntons LME - Amber",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 7.0,
+   "potential_extract_asis": 0.78
+  },
+  "muntons lme - dark": {
+   "name": "Muntons LME - Dark",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 2.1,
+   "potential_extract_asis": 0.78
+  },
+  "muntons lme - extra light": {
+   "name": "Muntons LME - Extra Light",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 2.8,
+   "potential_extract_asis": 0.78
+  },
+  "muntons lme - light": {
+   "name": "Muntons LME - Light",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.78
+  },
+  "muntons lme - wheat": {
+   "name": "Muntons LME - Wheat",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.78
+  },
+  "oats, flaked": {
+   "name": "Oats, Flaked",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.8
+  },
+  "oats, malted": {
+   "name": "Oats, Malted",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.8
+  },
+  "pale malt (2 row) bel": {
+   "name": "Pale Malt (2 Row) Bel",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.8
+  },
+  "pale malt (2 row) uk": {
+   "name": "Pale Malt (2 Row) UK",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.78
+  },
+  "pale malt (2 row) us": {
+   "name": "Pale Malt (2 Row) US",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.79
+  },
+  "pale malt (6 row) us": {
+   "name": "Pale Malt (6 Row) US",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.76
+  },
+  "peat smoked malt": {
+   "name": "Peat Smoked Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.74
+  },
+  "pilsner (2 row) bel": {
+   "name": "Pilsner (2 Row) Bel",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.79
+  },
+  "pilsner (2 row) ger": {
+   "name": "Pilsner (2 Row) Ger",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.81
+  },
+  "pilsner (2 row) uk": {
+   "name": "Pilsner (2 Row) UK",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.78
+  },
+  "rahr - 2 row malt": {
+   "name": "Rahr - 2 Row Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 4.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.768
+  },
+  "rahr - 6 row malt": {
+   "name": "Rahr - 6 Row Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 4.2,
+   "color": 25.0,
+   "potential_extract_asis": 0.7568
+  },
+  "rahr - pale ale malt": {
+   "name": "Rahr - Pale Ale Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 4.5,
+   "color": 40.0,
+   "potential_extract_asis": 0.7544
+  },
+  "rahr - premium pilsner malt": {
+   "name": "Rahr - Premium Pilsner Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 4.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.768
+  },
+  "rahr - red wheat malt": {
+   "name": "Rahr - Red Wheat Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 85.0,
+   "moisture_pct": 4.5,
+   "color": 45.0,
+   "potential_extract_asis": 0.8117
+  },
+  "rahr - white wheat malt": {
+   "name": "Rahr - White Wheat Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 85.0,
+   "moisture_pct": 4.5,
+   "color": 45.0,
+   "potential_extract_asis": 0.8117
+  },
+  "rauch malt (germany)": {
+   "name": "Rauch Malt (Germany)",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 0.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.81
+  },
+  "rice extract syrup": {
+   "name": "Rice Extract Syrup",
+   "supplier": null,
+   "type": "extract",
+   "fine_yield_pct": 69.6,
+   "moisture_pct": 0.0,
+   "color": 7.0,
+   "potential_extract_asis": 0.696
+  },
+  "rice hulls": {
+   "name": "Rice Hulls",
+   "supplier": null,
+   "type": "other",
+   "fine_yield_pct": 0.0,
+   "moisture_pct": 0.0,
+   "color": 0.0,
+   "potential_extract_asis": 0.0
+  },
+  "rice, flaked": {
+   "name": "Rice, Flaked",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.7
+  },
+  "roasted barley": {
+   "name": "Roasted Barley",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 0.0,
+   "color": 300.0,
+   "potential_extract_asis": 0.55
+  },
+  "rye malt": {
+   "name": "Rye Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 63.0,
+   "moisture_pct": 0.0,
+   "color": 5.0,
+   "potential_extract_asis": 0.63
+  },
+  "rye, flaked": {
+   "name": "Rye, Flaked",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 78.3,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.783
+  },
+  "simpsons - aromatic malt": {
+   "name": "Simpsons - Aromatic Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 82.5,
+   "moisture_pct": 5.0,
+   "color": 25.0,
+   "potential_extract_asis": 0.7837
+  },
+  "simpsons - black malt": {
+   "name": "Simpsons - Black Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 3.0,
+   "color": 550.0,
+   "potential_extract_asis": 0.679
+  },
+  "simpsons - caramalt": {
+   "name": "Simpsons - Caramalt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 5.0,
+   "color": 35.0,
+   "potential_extract_asis": 0.722
+  },
+  "simpsons - caramalt light": {
+   "name": "Simpsons - Caramalt Light",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 6.9,
+   "color": 13.0,
+   "potential_extract_asis": 0.7076
+  },
+  "simpsons - chocolate malt": {
+   "name": "Simpsons - Chocolate Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 1.9,
+   "color": 400.0,
+   "potential_extract_asis": 0.7161
+  },
+  "simpsons - coffee malt": {
+   "name": "Simpsons - Coffee Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 3.5,
+   "color": 150.0,
+   "potential_extract_asis": 0.7141
+  },
+  "simpsons - crystal dark": {
+   "name": "Simpsons - Crystal Dark",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 5.3,
+   "color": 80.0,
+   "potential_extract_asis": 0.7008
+  },
+  "simpsons - crystal extra dark": {
+   "name": "Simpsons - Crystal Extra Dark",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 5.0,
+   "color": 160.0,
+   "potential_extract_asis": 0.703
+  },
+  "simpsons - crystal medium": {
+   "name": "Simpsons - Crystal Medium",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 4.7,
+   "color": 55.0,
+   "potential_extract_asis": 0.7052
+  },
+  "simpsons - crystal rye": {
+   "name": "Simpsons - Crystal Rye",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 3.1,
+   "color": 90.0,
+   "potential_extract_asis": 0.7074
+  },
+  "simpsons - golden naked oats": {
+   "name": "Simpsons - Golden Naked Oats",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 4.5,
+   "color": 10.0,
+   "potential_extract_asis": 0.6971
+  },
+  "simpsons - golden promise": {
+   "name": "Simpsons - Golden Promise",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 3.5,
+   "color": 2.0,
+   "potential_extract_asis": 0.7817
+  },
+  "simpsons - maris otter": {
+   "name": "Simpsons - Maris Otter",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 3.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.7857
+  },
+  "simpsons - peated malt": {
+   "name": "Simpsons - Peated Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 4.6,
+   "color": 2.5,
+   "potential_extract_asis": 0.7727
+  },
+  "simpsons - roasted barley": {
+   "name": "Simpsons - Roasted Barley",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 1.9,
+   "color": 550.0,
+   "potential_extract_asis": 0.6867
+  },
+  "smoked malt": {
+   "name": "Smoked Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 0.0,
+   "color": 9.0,
+   "potential_extract_asis": 0.8
+  },
+  "special b malt": {
+   "name": "Special B Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 65.2,
+   "moisture_pct": 0.0,
+   "color": 160.0,
+   "potential_extract_asis": 0.652
+  },
+  "special roast": {
+   "name": "Special Roast",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 72.0,
+   "moisture_pct": 0.0,
+   "color": 50.0,
+   "potential_extract_asis": 0.72
+  },
+  "sugar, table (sucrose)": {
+   "name": "Sugar, Table (Sucrose)",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 100.0,
+   "moisture_pct": 0.0,
+   "color": 1.0,
+   "potential_extract_asis": 1.0
+  },
+  "toasted malt": {
+   "name": "Toasted Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 71.7,
+   "moisture_pct": 0.0,
+   "color": 27.0,
+   "potential_extract_asis": 0.717
+  },
+  "turbinado": {
+   "name": "Turbinado",
+   "supplier": null,
+   "type": "sugar",
+   "fine_yield_pct": 95.7,
+   "moisture_pct": 0.0,
+   "color": 10.0,
+   "potential_extract_asis": 0.957
+  },
+  "victory malt": {
+   "name": "Victory Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 0.0,
+   "color": 25.0,
+   "potential_extract_asis": 0.73
+  },
+  "vienna malt": {
+   "name": "Vienna Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 0.0,
+   "color": 4.0,
+   "potential_extract_asis": 0.78
+  },
+  "weyermann - acidulated malt": {
+   "name": "Weyermann - Acidulated Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 7.0,
+   "color": 3.2,
+   "potential_extract_asis": 0.744
+  },
+  "weyermann - bohemian pilsner malt": {
+   "name": "Weyermann - Bohemian Pilsner Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 5.0,
+   "color": 2.1,
+   "potential_extract_asis": 0.7695
+  },
+  "weyermann - carafa i": {
+   "name": "Weyermann - Carafa I",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 3.5,
+   "color": 350.0,
+   "potential_extract_asis": 0.6755
+  },
+  "weyermann - carafa ii": {
+   "name": "Weyermann - Carafa II",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 3.5,
+   "color": 425.0,
+   "potential_extract_asis": 0.6755
+  },
+  "weyermann - carafa iii": {
+   "name": "Weyermann - Carafa III",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 3.5,
+   "color": 520.0,
+   "potential_extract_asis": 0.6755
+  },
+  "weyermann - carafoam": {
+   "name": "Weyermann - Carafoam",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 6.5,
+   "color": 2.4,
+   "potential_extract_asis": 0.7574
+  },
+  "weyermann - carawheat": {
+   "name": "Weyermann - Carawheat",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 4.0,
+   "color": 49.0,
+   "potential_extract_asis": 0.7392
+  },
+  "weyermann - chocolate rye": {
+   "name": "Weyermann - Chocolate Rye",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 20.0,
+   "moisture_pct": 4.0,
+   "color": 250.0,
+   "potential_extract_asis": 0.192
+  },
+  "weyermann - chocolate wheat": {
+   "name": "Weyermann - Chocolate Wheat",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 4.5,
+   "color": 400.0,
+   "potential_extract_asis": 0.7067
+  },
+  "weyermann - dark wheat malt": {
+   "name": "Weyermann - Dark Wheat Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 85.0,
+   "moisture_pct": 5.0,
+   "color": 7.3,
+   "potential_extract_asis": 0.8075
+  },
+  "weyermann - dehusked carafa i": {
+   "name": "Weyermann - Dehusked Carafa I",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 3.5,
+   "color": 350.0,
+   "potential_extract_asis": 0.6755
+  },
+  "weyermann - dehusked carafa ii": {
+   "name": "Weyermann - Dehusked Carafa II",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 3.5,
+   "color": 425.0,
+   "potential_extract_asis": 0.6755
+  },
+  "weyermann - dehusked carafa iii": {
+   "name": "Weyermann - Dehusked Carafa III",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 3.5,
+   "color": 520.0,
+   "potential_extract_asis": 0.6755
+  },
+  "weyermann - light munich malt": {
+   "name": "Weyermann - Light Munich Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 82.0,
+   "moisture_pct": 4.5,
+   "color": 6.9,
+   "potential_extract_asis": 0.7831
+  },
+  "weyermann - melanoiden malt": {
+   "name": "Weyermann - Melanoiden Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 4.5,
+   "color": 27.0,
+   "potential_extract_asis": 0.7736
+  },
+  "weyermann - pale ale malt": {
+   "name": "Weyermann - Pale Ale Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 85.0,
+   "moisture_pct": 5.0,
+   "color": 3.4,
+   "potential_extract_asis": 0.8075
+  },
+  "weyermann - pale wheat malt": {
+   "name": "Weyermann - Pale Wheat Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 85.0,
+   "moisture_pct": 5.0,
+   "color": 2.4,
+   "potential_extract_asis": 0.8075
+  },
+  "weyermann - pilsner malt": {
+   "name": "Weyermann - Pilsner Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 5.0,
+   "color": 2.4,
+   "potential_extract_asis": 0.7695
+  },
+  "weyermann - rye malt": {
+   "name": "Weyermann - Rye Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 85.0,
+   "moisture_pct": 5.0,
+   "color": 3.6,
+   "potential_extract_asis": 0.8075
+  },
+  "weyermann - smoked malt": {
+   "name": "Weyermann - Smoked Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 5.0,
+   "color": 2.8,
+   "potential_extract_asis": 0.7695
+  },
+  "weyermann - vienna malt": {
+   "name": "Weyermann - Vienna Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 5.0,
+   "color": 3.9,
+   "potential_extract_asis": 0.7695
+  },
+  "wheat malt, bel": {
+   "name": "Wheat Malt, Bel",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.81
+  },
+  "wheat malt, dark": {
+   "name": "Wheat Malt, Dark",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 84.0,
+   "moisture_pct": 0.0,
+   "color": 9.0,
+   "potential_extract_asis": 0.84
+  },
+  "wheat malt, ger": {
+   "name": "Wheat Malt, Ger",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 84.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.84
+  },
+  "wheat, flaked": {
+   "name": "Wheat, Flaked",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.77
+  },
+  "wheat, roasted": {
+   "name": "Wheat, Roasted",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 54.3,
+   "moisture_pct": 0.0,
+   "color": 425.0,
+   "potential_extract_asis": 0.543
+  },
+  "wheat, torrified": {
+   "name": "Wheat, Torrified",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 79.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.79
+  },
+  "white wheat malt": {
+   "name": "White Wheat Malt",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 86.0,
+   "moisture_pct": 0.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.86
+  },
+  "briess - 2 row black malt": {
+   "name": "Briess - 2 Row Black Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 55.0,
+   "moisture_pct": 6.0,
+   "color": 500.0,
+   "potential_extract_asis": 0.517
+  },
+  "briess - 2 row caramel malt 10l": {
+   "name": "Briess - 2 Row Caramel Malt 10L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 7.0,
+   "color": 10.0,
+   "potential_extract_asis": 0.7161
+  },
+  "briess - 2 row caramel malt 120l": {
+   "name": "Briess - 2 Row Caramel Malt 120L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 3.0,
+   "color": 120.0,
+   "potential_extract_asis": 0.7275
+  },
+  "briess - 2 row caramel malt 30l": {
+   "name": "Briess - 2 Row Caramel Malt 30L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 5.5,
+   "color": 30.0,
+   "potential_extract_asis": 0.7277
+  },
+  "briess - 2 row caramel malt 40l": {
+   "name": "Briess - 2 Row Caramel Malt 40L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 5.5,
+   "color": 40.0,
+   "potential_extract_asis": 0.7277
+  },
+  "briess - 2 row caramel malt 60l": {
+   "name": "Briess - 2 Row Caramel Malt 60L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 5.0,
+   "color": 60.0,
+   "potential_extract_asis": 0.7315
+  },
+  "briess - 2 row caramel malt 80l": {
+   "name": "Briess - 2 Row Caramel Malt 80L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 4.5,
+   "color": 80.0,
+   "potential_extract_asis": 0.7258
+  },
+  "briess - 2 row chocolate malt": {
+   "name": "Briess - 2 Row Chocolate Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 60.0,
+   "moisture_pct": 5.5,
+   "color": 350.0,
+   "potential_extract_asis": 0.567
+  },
+  "briess - barley flakes": {
+   "name": "Briess - Barley Flakes",
+   "supplier": "Briess",
+   "type": "other",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 9.0,
+   "color": 1.4,
+   "potential_extract_asis": 0.637
+  },
+  "briess - brown rice flakes": {
+   "name": "Briess - Brown Rice Flakes",
+   "supplier": "Briess",
+   "type": "other",
+   "fine_yield_pct": 60.0,
+   "moisture_pct": 7.0,
+   "color": 1.0,
+   "potential_extract_asis": 0.558
+  },
+  "briess - caramel malt 10l": {
+   "name": "Briess - Caramel Malt 10L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 7.0,
+   "color": 10.0,
+   "potential_extract_asis": 0.7068
+  },
+  "briess - caramel malt 120l": {
+   "name": "Briess - Caramel Malt 120L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 3.0,
+   "color": 120.0,
+   "potential_extract_asis": 0.7178
+  },
+  "briess - caramel malt 20l": {
+   "name": "Briess - Caramel Malt 20L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 6.0,
+   "color": 20.0,
+   "potential_extract_asis": 0.7144
+  },
+  "briess - caramel malt 40l": {
+   "name": "Briess - Caramel Malt 40L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 5.5,
+   "color": 40.0,
+   "potential_extract_asis": 0.7087
+  },
+  "briess - caramel malt 60l": {
+   "name": "Briess - Caramel Malt 60L",
+   "supplier": null,
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 5.0,
+   "color": 60.0,
+   "potential_extract_asis": 0.722
+  },
+  "briess - caramel malt 80l": {
+   "name": "Briess - Caramel Malt 80L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 4.5,
+   "color": 80.0,
+   "potential_extract_asis": 0.7162
+  },
+  "briess - caramel malt 90l": {
+   "name": "Briess - Caramel Malt 90L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 4.0,
+   "color": 90.0,
+   "potential_extract_asis": 0.72
+  },
+  "briess - caramel munich malt 60l": {
+   "name": "Briess - Caramel Munich Malt 60L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 3.5,
+   "color": 60.0,
+   "potential_extract_asis": 0.743
+  },
+  "briess - caramel vienne malt 20l": {
+   "name": "Briess - Caramel Vienne Malt 20L",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 78.0,
+   "moisture_pct": 4.5,
+   "color": 20.0,
+   "potential_extract_asis": 0.7449
+  },
+  "briess - goldpils vienna malt": {
+   "name": "Briess - Goldpils Vienna Malt",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 3.5,
+   "color": 3.5,
+   "potential_extract_asis": 0.772
+  },
+  "briess - oat flakes": {
+   "name": "Briess - Oat Flakes",
+   "supplier": "Briess",
+   "type": "other",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 7.5,
+   "color": 2.5,
+   "potential_extract_asis": 0.74
+  },
+  "briess - red wheat flakes": {
+   "name": "Briess - Red Wheat Flakes",
+   "supplier": "Briess",
+   "type": "other",
+   "fine_yield_pct": 70.0,
+   "moisture_pct": 7.0,
+   "color": 2.0,
+   "potential_extract_asis": 0.651
+  },
+  "briess - rye flakes": {
+   "name": "Briess - Rye Flakes",
+   "supplier": "Briess",
+   "type": "other",
+   "fine_yield_pct": 71.0,
+   "moisture_pct": 7.0,
+   "color": 3.0,
+   "potential_extract_asis": 0.6603
+  },
+  "briess - torrified red wheat": {
+   "name": "Briess - Torrified Red Wheat",
+   "supplier": "Briess",
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 8.5,
+   "color": 1.5,
+   "potential_extract_asis": 0.6954
+  },
+  "briess - yellow corn flakes": {
+   "name": "Briess - Yellow Corn Flakes",
+   "supplier": "Briess",
+   "type": "other",
+   "fine_yield_pct": 75.0,
+   "moisture_pct": 8.0,
+   "color": 0.8,
+   "potential_extract_asis": 0.69
+  },
+  "gladfield - ale malt": {
+   "name": "Gladfield - Ale Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 81.4,
+   "moisture_pct": 2.7,
+   "color": 3.0456853,
+   "potential_extract_asis": 0.792
+  },
+  "gladfield - american ale malt": {
+   "name": "Gladfield - American Ale Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 3.0,
+   "color": 2.5380711,
+   "potential_extract_asis": 0.7857
+  },
+  "gladfield - aurora malt": {
+   "name": "Gladfield - Aurora Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 80.97,
+   "moisture_pct": 3.3,
+   "color": 29.4416244,
+   "potential_extract_asis": 0.783
+  },
+  "gladfield - biscuit malt": {
+   "name": "Gladfield - Biscuit Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 76.0,
+   "moisture_pct": 2.2,
+   "color": 30.4568528,
+   "potential_extract_asis": 0.7433
+  },
+  "gladfield - brown malt": {
+   "name": "Gladfield - Brown Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 3.2,
+   "color": 90.3553299,
+   "potential_extract_asis": 0.7163
+  },
+  "gladfield - dark chocolate malt": {
+   "name": "Gladfield - Dark Chocolate Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 71.0,
+   "moisture_pct": 3.5,
+   "color": 659.8984772,
+   "potential_extract_asis": 0.6851
+  },
+  "gladfield - dark crystal malt": {
+   "name": "Gladfield - Dark Crystal Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 3.2,
+   "color": 96.4467005,
+   "potential_extract_asis": 0.7454
+  },
+  "gladfield - gladiator malt": {
+   "name": "Gladfield - Gladiator Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 81.0,
+   "moisture_pct": 4.3,
+   "color": 5.0761421,
+   "potential_extract_asis": 0.7752
+  },
+  "gladfield - lager light": {
+   "name": "Gladfield - Lager Light",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 80.5,
+   "moisture_pct": 4.18,
+   "color": 1.4263959,
+   "potential_extract_asis": 0.7714
+  },
+  "gladfield - light chocolate malt": {
+   "name": "Gladfield - Light Chocolate Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 71.0,
+   "moisture_pct": 3.5,
+   "color": 456.8527919,
+   "potential_extract_asis": 0.6851
+  },
+  "gladfield - light crystal malt": {
+   "name": "Gladfield - Light Crystal Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 3.8,
+   "color": 31.9796954,
+   "potential_extract_asis": 0.7407
+  },
+  "gladfield - malted rye": {
+   "name": "Gladfield - Malted Rye",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 87.49,
+   "moisture_pct": 4.59,
+   "color": 3.0,
+   "potential_extract_asis": 0.8347
+  },
+  "gladfield - manuka smoked malt": {
+   "name": "Gladfield - Manuka Smoked Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 80.0,
+   "moisture_pct": 4.0,
+   "color": 2.0304569,
+   "potential_extract_asis": 0.768
+  },
+  "gladfield - medium crystal malt": {
+   "name": "Gladfield - Medium Crystal Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 3.4,
+   "color": 56.3451777,
+   "potential_extract_asis": 0.7438
+  },
+  "gladfield - munich malt": {
+   "name": "Gladfield - Munich Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 79.93,
+   "moisture_pct": 2.6,
+   "color": 7.8680203,
+   "potential_extract_asis": 0.7785
+  },
+  "gladfield - organic pilsner": {
+   "name": "Gladfield - Organic Pilsner",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 82.49,
+   "moisture_pct": 3.44,
+   "color": 1.5862944,
+   "potential_extract_asis": 0.7965
+  },
+  "gladfield - pilsner malt": {
+   "name": "Gladfield - Pilsner Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 81.1,
+   "moisture_pct": 3.5,
+   "color": 1.928934,
+   "potential_extract_asis": 0.7826
+  },
+  "gladfield - red back malt": {
+   "name": "Gladfield - Red Back Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 4.7,
+   "color": 32.9949239,
+   "potential_extract_asis": 0.7338
+  },
+  "gladfield - roast barley": {
+   "name": "Gladfield - Roast Barley",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 71.0,
+   "moisture_pct": 3.5,
+   "color": 736.0406091,
+   "potential_extract_asis": 0.6851
+  },
+  "gladfield - roasted wheat": {
+   "name": "Gladfield - Roasted Wheat",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 73.0,
+   "moisture_pct": 3.2,
+   "color": 279.1878173,
+   "potential_extract_asis": 0.7066
+  },
+  "gladfield - shepherds delight malt": {
+   "name": "Gladfield - Shepherds Delight Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 3.5,
+   "color": 152.284264,
+   "potential_extract_asis": 0.743
+  },
+  "gladfield - sour grapes malt": {
+   "name": "Gladfield - Sour Grapes Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 27.0,
+   "moisture_pct": 5.0,
+   "color": 2.0304569,
+   "potential_extract_asis": 0.2565
+  },
+  "gladfield - toffee malt": {
+   "name": "Gladfield - Toffee Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 74.0,
+   "moisture_pct": 7.2,
+   "color": 5.3299492,
+   "potential_extract_asis": 0.6867
+  },
+  "gladfield - vienna malt": {
+   "name": "Gladfield - Vienna Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 81.2,
+   "moisture_pct": 3.64,
+   "color": 3.4517766,
+   "potential_extract_asis": 0.7824
+  },
+  "gladfield - wheat malt": {
+   "name": "Gladfield - Wheat Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 84.29,
+   "moisture_pct": 5.18,
+   "color": 2.1319797,
+   "potential_extract_asis": 0.7992
+  },
+  "harraway's rolled oats": {
+   "name": "Harraway's Rolled Oats",
+   "supplier": "Harraways / Gladfield",
+   "type": "grain",
+   "fine_yield_pct": 85.0,
+   "moisture_pct": 7.5,
+   "color": 1.4,
+   "potential_extract_asis": 0.7863
+  },
+  "harraways rolled barley": {
+   "name": "Harraways Rolled Barley",
+   "supplier": "Harraways / Gladfield",
+   "type": "grain",
+   "fine_yield_pct": 77.0,
+   "moisture_pct": 9.0,
+   "color": 1.7,
+   "potential_extract_asis": 0.7007
+  },
+  "gladfield - supernova malt": {
+   "name": "Gladfield - Supernova Malt",
+   "supplier": "Gladfield Malt",
+   "type": "grain",
+   "fine_yield_pct": 79.3478261,
+   "moisture_pct": 4.5,
+   "color": 58.3756345,
+   "potential_extract_asis": 0.7578
+  }
+ }
+}

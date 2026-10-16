@@ -2,6 +2,8 @@
 
 家酿啤酒效率分析与配方设计 CLI 工具。覆盖完整酿造工作流：酿造前分析 → 酿造中记录+监控 → 酿造后报告。
 
+> **深度分析必读**：修改模型、评估数据质量或做预测/回测前，先读 [`analysis_notes.md`](analysis_notes.md)——其中记录了自洽性原理、**温度坑**（热端读数偏低）、原料库口径与匹配、回测方法与结果、以及已知待办。本文只讲"怎么用"。
+
 ## 环境准备
 
 虚拟环境放在项目外的 `~/.venvs/brew-metrics`（避免 `.venv` 落在 Synology Drive 之类的同步目录里）：
@@ -17,10 +19,10 @@ uv pip install --python ~/.venvs/brew-metrics/bin/python -e .
 ## 工作流总览
 
 ```
-酿造前: design → add
+酿造前: predict（麦芽+水→预计比重）/ design（目标→用料）→ add
 酿造中: record (--process-log / --stage) × N
-酿造后: show → analyze → design (下一批次)
-数据维护: validate（体检）→ migrate（规范化）
+酿造后: show → analyze（资格筛选 + 稳健经验值）→ 下一批次
+数据维护: validate（糖量守恒校验）→ migrate（规范化）
 ```
 
 ---
@@ -65,10 +67,14 @@ efficiencies 关键字段：
 | 字段 | 说明 |
 |------|------|
 | pre_sparge_coefficient | 洗糟前提取系数（度量糖化效果） |
-| post_sparge_coefficient | 洗糟后提取系数（总水量口径，用于批次间横向对比） |
+| sparge_recovery | 洗糟回收率 = S_煮前/S_糖化（同温端比值，抗热端温度偏差） |
+| retention_ratio | 麦床残留率 = (S_糖化−S_煮前)/S_糖化 |
 | post_boil_efficiency | 熬煮后效率（度量进罐前整体效率） |
 | grain_absorption_rate | 谷物吸收率 L/kg |
 | boil_off | 熬煮蒸发量 L |
+| sugar_mash / sugar_kettle / sugar_boil | 三阶段绝对糖量 kg |
+| boil_ratio | 煮后/煮前糖量（应≤1，>1 提示温度未补偿） |
+| hot_consistent / boil_consistent / eligible | 同温端/跨温端自洽与是否纳入统计 |
 | potential_extract | **有效**理论浸出率：有 `malts` 明细时按重量加权，否则取综合值 |
 | final_ph | 最后一次非空 PH（末条日志可能只有 note） |
 
@@ -126,27 +132,27 @@ brew-metrics record 20260525-S-IPA --stage final       --volume 20  --gravity 1.
 
 ### `brew-metrics analyze` — 效率分析
 
-酿造后使用，加载所有批次数据，计算各阶段提取系数/效率，输出汇总表和统计表，保存修剪均值到 CSV。
+酿造后使用，加载所有批次数据，按「同温端自洽」资格筛选后计算各过程量的稳健经验值（中位数），输出汇总表和统计表，保存到 CSV。
 
 ```bash
 brew-metrics analyze --json
 brew-metrics analyze -o brewing_metrics_summary.csv --json
 ```
 
-**JSON 输出** → `data.table[]`（每批次效率数据）+ `data.stats[]`（各阶段统计）+ `data.csv_exported`
+**JSON 输出** → `data.table[]`（每批次过程量，含资格字段）+ `data.stats[]`（各过程量经验值）+ `data.csv_exported`
 
 stats 中每个元素：
 
 | 字段 | 说明 |
 |------|------|
-| 阶段 | 中文名 |
-| 修剪后平均值 | 去除最大最小各2个值后的均值 |
-| 修剪后标准差 | 修剪后标准差 |
-| 原始平均值 | 全量均值 |
+| 阶段 | 过程量中文名 |
+| 经验值(中位) | 资格筛选后的中位数（写入 CSV 的值） |
+| MAD | 绝对中位差（散布尺度） |
+| 截尾均值 | 去首尾各 2 个后的均值（参考） |
 | 最小值 / 最大值 | 极值 |
-| 样本数 | 有效数据条数 |
+| 纳入 / 剔除 | 纳入统计 / 被资格判定剔除的批次数 |
 
-CSV 列：`pre_sparge_coefficient`, `post_sparge_coefficient`, `grain_absorption_rate`, `post_boil_efficiency`, `boil_off_volume`
+CSV 列：`pre_sparge_coefficient`, `sparge_recovery`, `retention_ratio`, `grain_absorption_rate`, `post_boil_efficiency`, `boil_off_volume`（均为同温端自洽批次的中位数）
 
 ---
 
@@ -218,6 +224,28 @@ sugar_balance[] 四行：
 
 ---
 
+### `brew-metrics predict` — 正向预测
+
+由**麦芽重量 + 水量**预测最终体积与比重（`design` 的逆过程）。麦芽浸出率自动从**本地原料库**（`brew_metrics/ingredients_db.json`，由 Brewtarget `default_db` 生成的「原样细粉浸出率」）解析；未匹配到的麦芽用 `--fallback-rate`（默认 0.78）。
+
+```bash
+brew-metrics predict --malts "Maris Otter:6.5,Pilsen Malt:2" --strike-water 20.8 --sparge-water 8.5 --json
+```
+
+每项格式 `name:kg`，逗号分隔。**JSON 输出** → `data.prediction`，关键字段：
+
+| 字段 | 说明 |
+|------|------|
+| weighted_rate | 加权浸出率（原料库解析） |
+| theoretical_sugar | 理论总糖 = Σ(重量 × 浸出率) |
+| final_volume / final_sg | 预计最终体积与比重 |
+| pre_sparge_sg / pre_boil_sg | 过程监控目标 |
+| grist[] | 每条 `{name, weight, rate, source}`，source ∈ `db`/`fallback` |
+
+> 原料库仅覆盖已知品牌的条目；未命中时回退，`source` 字段会标明，便于核对。
+
+---
+
 ## 数据格式（brew_data/*.yaml）
 
 ```yaml
@@ -280,16 +308,23 @@ measurements:
 提取系数:    η = M_act(V, SG) / (麦芽重量 × 理论浸出率)
 比重反解:    从 M = 2.5×(SG-1)×V×SG 反解 SG（二次方程）
 麦芽重量:    W = M_act / η / 理论浸出率
+糖量:        S_糖化 = M(strike, SG洗糟前); S_煮前 = M(V煮前实测, SG煮前); S_煮后 = M(V煮后, SG煮后)
+洗糟回收率:  sparge_recovery = S_煮前 / S_糖化        （同温端比值，抗热端温度偏差）
+麦床残留率:  retention_ratio = (S_糖化 − S_煮前) / S_糖化
 ```
 
-提取系数计算用水量选择：
-- **洗糟前系数**：使用 `strike_water`（糖化锅初始水量）
-- **洗糟后系数**：使用 `strike_water + sparge_water`（总水量，绝对值无物理意义，仅用于批次间对比）
-- **熬煮后效率**：使用实际测量麦汁体积
+用水量口径：
+- **洗糟前系数**：`strike_water`（糖化锅初始水量）
+- **熬煮后效率**：实际测量麦汁体积
+- **洗糟后收集糖量**：必须用**实测煮前体积**，不能用 `strike_water + sparge_water`（总水量）——麦床残留麦汁比重低于锅内麦汁，总水量口径会虚高
+
+自洽性资格（`analyze` 取舍依据）：
+- 同温端硬约束：`retention_ratio ∈ [0, 0.30]`，否则视为记录错误剔除（洗糟前/煮前均热测，共同偏差可约掉）
+- 跨温端仅提示：煮后糖量 > 煮前 × 1.02 → 疑温度未补偿（煮后冷测）
 
 比重预测（`design`）：
-- **糖化后（pre_sparge_sg）**：用 `pre_sparge_coefficient` + `strike_water` 反解
-- **熬煮前（pre_boil_sg）**：用**质量守恒**——煮沸只蒸发浓缩、不丢糖，故熬煮前糖量 = 煮沸后糖量，用 `pre_boil_volume` 反解。这样它与目标煮后比重在蒸发量下自洽，不再使用总水量口径的洗糟后系数
+- **糖化后（pre_sparge_sg）**：用 `pre_sparge_coefficient` + `strike_water` 反解；另有 `pre_sparge_sg_recovery`，用同温端回收率 × 目标进罐糖量反推，抗热端温度偏差
+- **熬煮前（pre_boil_sg）**：用**质量守恒**——煮沸只蒸发浓缩、不丢糖，故熬煮前糖量 = 煮沸后糖量，用 `pre_boil_volume` 反解
 
 ---
 
