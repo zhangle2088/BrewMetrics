@@ -2,7 +2,7 @@
  * @Author       : zhangle
  * @Date         : 2026-01-01 10:41:04
  * @LastEditors  : zhangle
- * @LastEditTime : 2026-01-12 14:12:23
+ * @LastEditTime : 2026-01-16 20:38:11
  * @Description  : happy new year
 -->
 
@@ -122,7 +122,12 @@ $$E_\text{煮沸后} = \frac{M_{\text{act}}(最终麦汁体积, SG_{\text{煮沸
    
 ## 4 酿造实例
 
-### 4.1 配方设计
+## 4.1 采用配方
+
+本次酿造选择单一麦芽(Maris Otter)和单一酒花(Citra),具体配方如下
+![alt text](<SMaSH IPA.png>)
+
+## 4.2 量化分析
 
 按如下目标和系数开展配方设计：
 
@@ -183,5 +188,7 @@ $$E_\text{煮沸后} = \frac{M_{\text{act}}(最终麦汁体积, SG_{\text{煮沸
 - 预计洗糟后比重（post-sparge）：≈ 1.052
 
 ### 4.2 实际酿造结果
+
+
 
 ## 5 分析及结论

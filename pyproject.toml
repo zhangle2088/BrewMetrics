@@ -1,0 +1,22 @@
+[project]
+name = "brew-metrics"
+version = "0.1.0"
+description = "CLI brewing metrics tool"
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.12",
+    "pyyaml>=6.0",
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "rich>=13.0",
+]
+
+[project.scripts]
+brew-metrics = "brew_metrics.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["brew_metrics*"]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,64 @@
+# 基础信息
+metadata:
+  date: 2026-01-15
+  recipe_name: "SMaSH IPA"
+  batch_id: "20160115-A-IPA"
+
+# 统计单位说明 (保持单位一致性)
+units:
+  weight: "kg"
+  volume: "L"
+  temperature: "C"
+  gravity: "SG"
+
+# 原料设置 (支持多种麦芽)
+ingredients:
+  malts:
+    - name: "Maris Otter"
+      supplier: "Castle Malting"
+      amount: 6.5
+      potential_extract: 0.81
+  total_malt_weight: 6.5
+  potential_extract: 0.78
+
+# 糖化过程
+mash:
+  strike_water: 20.8
+  water_grain_ratio: 3.20  # 水料比
+  target_temperature: 67
+  sparge_water: 8.5
+  
+  # 糖化期间的定时采样数据
+  process_logs:
+    - time_min: 0
+      ph: 5.28
+      gravity: null
+    - time_min: 20
+      ph: 5.37
+      gravity: 1.054
+    - time_min: 40
+      ph: 5.35
+      gravity: 1.065
+    - note: "10分钟测量ph值过低,5.0左右，加入5gNaHCO2"
+
+# 关键环节测量
+measurements:
+  # 洗糟前（头道麦汁采集前，糖化结束时）
+  pre_sparge:
+    volume: 15
+    gravity: 1.070
+    
+  # 熬煮前（收集完洗糟水后的总麦汁体积）
+  pre_boil:
+    volume: 24
+    gravity: 1.048
+    
+  # 熬煮后（入发酵罐前）
+  post_boil:
+    volume: 22
+    gravity: 1.053
+    
+  # 发酵结束
+  final:
+    volume: 
+    gravity: 

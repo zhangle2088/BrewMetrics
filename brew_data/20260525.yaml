@@ -1,0 +1,104 @@
+metadata:
+  date: '2026-05-25'
+  recipe_name: Saisonolatry
+  batch_id: 20260525-S-SAISON
+units:
+  weight: kg
+  volume: L
+  temperature: C
+  gravity: SG
+ingredients:
+  total_malt_weight: 4.73
+  potential_extract: 0.78
+  notes: "Pilsner 3.5kg(原方3.2→调高) + Spelt 1kg + Flaked Rye 230g; Rice hulls 230g"
+  design_note: "Pilsner加量0.3kg以补偿设备效率差距(历史69.3% vs 配方76.4%)"
+mash:
+  strike_water: 15.0
+  water_grain_ratio: 3.17
+  target_temperature: 63.5
+  mash_time_min: 60
+  mash_out_temperature: 75
+  mash_out_time_min: 15
+  boil_time_min: 90
+  sparge_water: 11.6
+  expected_sg:
+    pre_sparge: 1.067
+    pre_boil: 1.043
+    post_boil: 1.047
+    final: 1.002
+  process_logs:
+    - time: "15min"
+      gravity: 1.057
+    - time: "30min"
+      gravity: 1.070
+    - time: "45min"
+      gravity: 1.075
+    - time: "60min"
+      gravity: 1.075
+  ph_readings:
+    - time: "start"
+      value: 5.62
+    - time: "30min"
+      value: 5.54
+    - time: "45min"
+      value: 5.51
+    - time: "60min"
+      value: 5.50
+measurements:
+  pre_sparge:
+    volume: null
+    gravity: null  # 预计~1.067, 实际15min即达1.057, 45min封顶1.075
+  pre_boil:
+    volume: 22
+    gravity: 1.052
+  post_boil:
+    volume: 20
+    gravity: 1.054
+  final:
+    volume: 19
+    gravity: null  # 预计~1.002 (FG)
+
+fermentation_log:
+  - day: 4.5
+    date: "2026-06-03"
+    gravity: 1.005
+    temperature: null
+    note: "4.5天，1.005（初读1.015看错，实为1.005）"
+
+fermentation:
+  yeast:
+    - strain: "SafAle S-33"
+      type: "干酵母"
+      amount: "1包"
+      timing: "热接种20°C时同时投入"
+    - strain: "SafAle BE-134"
+      type: "干酵母"
+      amount: "1包"
+      timing: "热接种20°C时同时投入"
+  clarification: "不使用澄清剂，保留古老谷物蛋白质以维系泡沫，留存悬浮活酵母用于二发"
+  primary:
+    temp_pitch: 20
+    temp_free_rise: "25~28"
+    back_pressure: "前2天零背压(粗排气管或盖铝箔纸)，之后装水封"
+    day5: "第一次定向排渣：开启锥底排渣阀，排出约200-300ml酒花沉淀与死酵母泥，见清即关"
+    day6: "第二次排渣：再次开启排渣阀确认锥底无残留"
+  bottling:
+    kegs: 2
+    keg_volume_l: 9
+    sugar_per_keg_g: 80
+    sugar_total_g: 160
+    sugar_type: "蔗糖(白砂糖)"
+    sugar_prep: "直接投放白砂糖，每桶80g，不制糖浆"
+    filling: "CO2气压顶出，无氧分装，每桶约9~9.5L，顶部预留5~10%气相空间"
+    o2_purge: "CO2顶入15PSI，拉安全阀放气，重复3-4次"
+    spunding_valve_psi: 40
+    spunding_note: "Gas In接控压阀，25°C室温拧到39~40PSI"
+    secondary:
+      temp: "20~28"
+      duration_days: 14
+      note: "2-3天糖吃干气压飙满40PSI，后续完成双乙酰和乙醛回吞还原"
+    cold_crash:
+      temp: "0~4"
+      duration_days: "3-5"
+      note: "冷藏后压力表自动跌落至18-20PSI"
+    target_co2_vol: 3.0
