@@ -112,7 +112,8 @@ def show_batch_detail(record, efficiencies):
     eff_table.add_column("数值", justify="right")
     eff_items = [
         ("洗糟前提取系数", efficiencies.get("pre_sparge_coefficient")),
-        ("洗糟后提取系数", efficiencies.get("post_sparge_coefficient")),
+        ("洗糟回收率", efficiencies.get("sparge_recovery")),
+        ("麦床残留率", efficiencies.get("retention_ratio")),
         ("熬煮后效率", efficiencies.get("post_boil_efficiency")),
         ("谷物吸收率(L/kg)", efficiencies.get("grain_absorption_rate")),
         ("熬煮蒸发量(L)", efficiencies.get("boil_off")),
@@ -120,6 +121,34 @@ def show_batch_detail(record, efficiencies):
     for label, val in eff_items:
         eff_table.add_row(label, _fmt(val, ".4f"))
     console.print(eff_table)
+
+    # 糖量与自洽性
+    sugar_table = Table(title="糖量与自洽性")
+    sugar_table.add_column("项目")
+    sugar_table.add_column("数值", justify="right")
+    sugar_table.add_row("糖化出糖(kg)", _fmt(efficiencies.get("sugar_mash"), ".3f"))
+    sugar_table.add_row("煮前收集(kg)", _fmt(efficiencies.get("sugar_kettle"), ".3f"))
+    sugar_table.add_row("煮后进罐(kg)", _fmt(efficiencies.get("sugar_boil"), ".3f"))
+    hot = efficiencies.get("retention_ratio")
+    sugar_table.add_row(
+        "煮后/煮前(应≤1)",
+        _fmt(efficiencies.get("boil_ratio"), ".3f"),
+    )
+    console.print(sugar_table)
+
+    if efficiencies.get("eligible"):
+        console.print("[green]同温端自洽：纳入经验值统计[/green]")
+    else:
+        reason = []
+        if efficiencies.get("retention_ratio") is not None and efficiencies["retention_ratio"] < 0:
+            reason.append("残留率为负(物理不可能)")
+        if efficiencies.get("boil_consistent") is False:
+            reason.append("煮后糖量>煮前(疑温度偏差)")
+        console.print(
+            "[yellow]未通过同温端自洽，已从经验值统计中剔除"
+            + (f"：{'；'.join(reason)}" if reason else "")
+            + "[/yellow]"
+        )
 
 
 def show_efficiency_table(df):
@@ -134,10 +163,11 @@ def show_efficiency_table(df):
     table.add_column("温度", justify="right")
     table.add_column("洗糟前系数", justify="right")
     table.add_column("洗糟水", justify="right")
-    table.add_column("洗糟后系数", justify="right")
+    table.add_column("洗糟回收率", justify="right")
     table.add_column("谷物吸收率", justify="right")
     table.add_column("蒸发量", justify="right")
     table.add_column("熬煮后效率", justify="right")
+    table.add_column("资格", justify="center")
 
     for _, row in df.iterrows():
         table.add_row(
@@ -150,34 +180,80 @@ def show_efficiency_table(df):
             _fmt(row.get("target_temperature"), ".0f"),
             _fmt(row.get("pre_sparge_coefficient"), ".4f"),
             _fmt(row.get("sparge_water"), ".1f"),
-            _fmt(row.get("post_sparge_coefficient"), ".4f"),
+            _fmt(row.get("sparge_recovery"), ".3f"),
             _fmt(row.get("grain_absorption_rate"), ".3f"),
             _fmt(row.get("boil_off"), ".1f"),
             _fmt(row.get("post_boil_efficiency"), ".4f"),
+            "[green]✓[/green]" if row.get("eligible") else "[red]✗[/red]",
         )
     console.print(table)
 
 
+def show_prediction(result):
+    """显示正向预测结果"""
+    table = Table(title="正向预测（麦芽重量 + 水量 → 最终比重）")
+    table.add_column("项目")
+    table.add_column("数值", justify="right")
+
+    items = [
+        ("总麦芽(kg)", _fmt(result["total_malt_weight"], ".3f")),
+        ("加权浸出率", _fmt(result["weighted_rate"], ".4f")),
+        ("理论总糖(kg)", _fmt(result["theoretical_sugar"], ".3f")),
+        ("糖化水(L)", _fmt(result["strike_water"], ".2f")),
+        ("洗糟水(L)", _fmt(result["sparge_water"], ".2f")),
+        ("谷物吸收(L)", _fmt(result["grain_absorption"], ".2f")),
+        ("熬煮前体积(L)", _fmt(result["pre_boil_volume"], ".2f")),
+        ("蒸发量(L)", _fmt(result["boil_off"], ".2f")),
+        ("预计最终体积(L)", _fmt(result["final_volume"], ".2f")),
+        ("进罐糖量(kg)", _fmt(result["sugar_boil"], ".3f")),
+        ("糖化后比重(监控)", _fmt(result.get("pre_sparge_sg"), ".4f")),
+        ("熬煮前比重(监控)", _fmt(result["pre_boil_sg"], ".4f")),
+        ("[bold]预计最终比重[/bold]", f"[bold]{_fmt(result['final_sg'], '.4f')}[/bold]"),
+    ]
+    for label, val in items:
+        table.add_row(label, val)
+    console.print(table)
+
+    grist_table = Table(title="麦芽清单与浸出率来源")
+    grist_table.add_column("麦芽")
+    grist_table.add_column("重量(kg)", justify="right")
+    grist_table.add_column("浸出率", justify="right")
+    grist_table.add_column("来源")
+    for g in result.get("grist", []):
+        src = {"db": "[green]原料库[/green]", "fallback": "[yellow]回退值[/yellow]"}.get(
+            g.get("source"), str(g.get("source"))
+        )
+        grist_table.add_row(
+            str(g.get("name")),
+            _fmt(g.get("weight"), ".2f"),
+            _fmt(g.get("rate"), ".4f"),
+            src,
+        )
+    console.print(grist_table)
+
+
 def show_stats_table(stats_rows):
-    """显示统计表"""
-    table = Table(title="各阶段提取系数/效率统计（去除最大最小各2个值）")
-    table.add_column("阶段")
-    table.add_column("修剪后均值", justify="right")
-    table.add_column("修剪后标准差", justify="right")
-    table.add_column("原始均值", justify="right")
+    """显示经验值统计表（同温端资格筛选 + 中位数）"""
+    table = Table(title="各过程量经验值（同温端自洽筛选后取中位数）")
+    table.add_column("过程量")
+    table.add_column("经验值(中位)", justify="right")
+    table.add_column("MAD", justify="right")
+    table.add_column("截尾均值", justify="right")
     table.add_column("最小值", justify="right")
     table.add_column("最大值", justify="right")
-    table.add_column("样本数", justify="right")
+    table.add_column("纳入", justify="right")
+    table.add_column("剔除", justify="right")
 
     for row in stats_rows:
         table.add_row(
             str(row["阶段"]),
-            _fmt(row["修剪后平均值"], ".4f"),
-            _fmt(row["修剪后标准差"], ".4f"),
-            _fmt(row["原始平均值"], ".4f"),
+            _fmt(row["经验值(中位)"], ".4f"),
+            _fmt(row["MAD"], ".4f"),
+            _fmt(row["截尾均值"], ".4f"),
             _fmt(row["最小值"], ".4f"),
             _fmt(row["最大值"], ".4f"),
-            str(row["样本数"]),
+            str(row["纳入"]),
+            str(row["剔除"]),
         )
     console.print(table)
 
@@ -198,11 +274,12 @@ def show_recipe_summary(result):
         ("总用水量(L)", _fmt(result["total_water"], ".2f")),
         ("水料比", _fmt(result["water_grain_ratio"])),
         ("糖化后比重", _fmt(result["pre_sparge_sg"], ".4f")),
+        ("糖化后比重(回收率口径)", _fmt(result.get("pre_sparge_sg_recovery"), ".4f")),
         ("熬煮前体积(L)", _fmt(result["pre_boil_volume"], ".2f")),
         ("洗糟后比重", _fmt(result["pre_boil_sg"], ".4f")),
         ("煮沸后比重", _fmt(result["post_boil_sg"], ".4f")),
         ("熬煮蒸发量(L)", _fmt(result["boil_off"], ".2f")),
-        ("历史洗糟后系数(参考)", _fmt(result.get("reference_post_sparge_coefficient"), ".4f")),
+        ("历史洗糟回收率(参考)", _fmt(result.get("reference_sparge_recovery"), ".4f")),
         ("历史谷物吸收率(参考)", _fmt(result.get("reference_grain_absorption_rate"), ".4f")),
     ]
     for label, val in items:
@@ -210,7 +287,12 @@ def show_recipe_summary(result):
     console.print(table)
 
     console.print("\n[bold]监控说明：[/bold]")
-    console.print(f"  糖化后比重目标: {result['pre_sparge_sg']:.4f} (基于糖化水{result['strike_water']:.2f}L)")
+    console.print(f"  糖化后比重目标: {result['pre_sparge_sg']:.4f} (基于糖化水{result['strike_water']:.2f}L、提取系数)")
+    if result.get("pre_sparge_sg_recovery") is not None:
+        console.print(
+            f"  糖化后比重目标(回收率口径): {result['pre_sparge_sg_recovery']:.4f} "
+            f"(同温端回收率×目标进罐糖量反推，抗热端温度偏差)"
+        )
     console.print(f"  熬煮前比重目标: {result['pre_boil_sg']:.4f} (基于熬煮前体积{result['pre_boil_volume']:.2f}L，与煮沸后经蒸发量守恒)")
     console.print(f"  煮沸后比重目标: {result['post_boil_sg']:.4f} (基于煮沸后体积{result['target_volume']:.2f}L)")
 

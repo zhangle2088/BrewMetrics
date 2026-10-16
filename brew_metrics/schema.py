@@ -20,6 +20,8 @@ import copy
 import re
 from typing import Any, Optional
 
+from .calculations import calculate_actual_extract
+
 STAGES = {
     "pre_sparge": "洗糟前",
     "pre_boil": "熬煮前",
@@ -215,6 +217,54 @@ def validate_record(record: dict) -> list:
             continue
         if entry.get("time_min") is None and entry.get(_RAW_TIME_KEY) is None:
             add("warning", f"mash.process_logs[{idx}]", "无法确定采样时间")
+
+    # ── 糖量守恒（自洽性）───────────────────────────────────────────────
+    # 同温端（洗糟前 vs 煮前，均热测）为硬约束；跨温端（煮前 vs 煮后）只作提示。
+    strike = mash.get("strike_water")
+    pre_sparge = measurements.get("pre_sparge") or {}
+    pre_boil = measurements.get("pre_boil") or {}
+    post_boil = measurements.get("post_boil") or {}
+
+    sugar_mash = (
+        calculate_actual_extract(strike, pre_sparge.get("gravity"))
+        if strike is not None and pre_sparge.get("gravity") is not None
+        else None
+    )
+    sugar_kettle = (
+        calculate_actual_extract(pre_boil.get("volume"), pre_boil.get("gravity"))
+        if pre_boil.get("volume") is not None and pre_boil.get("gravity") is not None
+        else None
+    )
+    sugar_boil = (
+        calculate_actual_extract(post_boil.get("volume"), post_boil.get("gravity"))
+        if post_boil.get("volume") is not None and post_boil.get("gravity") is not None
+        else None
+    )
+
+    if sugar_mash and sugar_mash > 0 and sugar_kettle is not None:
+        retention = (sugar_mash - sugar_kettle) / sugar_mash
+        if retention < -0.02:
+            add(
+                "error",
+                "measurements.sugar_balance",
+                f"煮前收集糖量({sugar_kettle:.2f}kg)多于糖化出糖量({sugar_mash:.2f}kg)，"
+                f"物理不可能（残留率 {retention * 100:.1f}%），疑为记录错误",
+            )
+        elif retention > 0.30:
+            add(
+                "warning",
+                "measurements.sugar_balance",
+                f"麦床残留率偏高（{retention * 100:.1f}%），请核对洗糟前/煮前读数",
+            )
+
+    if sugar_kettle and sugar_kettle > 0 and sugar_boil is not None:
+        if sugar_boil > sugar_kettle * 1.02:
+            add(
+                "info",
+                "measurements.sugar_balance",
+                f"煮后糖量({sugar_boil:.2f}kg) ＞ 煮前({sugar_kettle:.2f}kg)，"
+                "煮沸不产糖，疑为温度未补偿（跨温端比较，仅提示）",
+            )
 
     return issues
 

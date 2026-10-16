@@ -6,14 +6,22 @@ from typing import Optional
 import yaml
 import pandas as pd
 
+from . import ingredients as ingredients_db
 from .calculations import (
+    calculate_actual_extract,
     calculate_extraction_coefficient,
-    calculate_trimmed_stats,
+    calculate_robust_stats,
     effective_potential_extract,
+    explain_potential_extract,
 )
 from .schema import find_duplicate_batches, normalize_record, validate_record
 
 BREW_DATA_DIR = Path(__file__).parent.parent / "brew_data"
+
+
+def _resolve_malt_rate(name, supplier=None):
+    """从本地原料库解析麦芽「原样细粉浸出率」，未匹配返回 None。"""
+    return ingredients_db.resolve_extract_rate(name, supplier)
 
 
 def find_batch(batch_id: str, data_dir: Path = None) -> Optional[Path]:
@@ -205,7 +213,10 @@ def calculate_stage_efficiencies(record: dict) -> dict:
         "recipe_name": metadata.get("recipe_name"),
         "batch_id": metadata.get("batch_id"),
         "total_malt_weight": ingredients.get("total_malt_weight"),
-        "potential_extract": effective_potential_extract(ingredients),
+        "potential_extract": effective_potential_extract(ingredients, _resolve_malt_rate),
+        "potential_extract_breakdown": explain_potential_extract(
+            ingredients, _resolve_malt_rate
+        ),
         "notes": ingredients.get("notes", ""),
         "strike_water": mash.get("strike_water"),
         "water_grain_ratio": mash.get("water_grain_ratio"),
@@ -215,7 +226,7 @@ def calculate_stage_efficiencies(record: dict) -> dict:
     }
 
     total_malt = ingredients.get("total_malt_weight")
-    potential = effective_potential_extract(ingredients)
+    potential = effective_potential_extract(ingredients, _resolve_malt_rate)
     strike_water = mash.get("strike_water")
     sparge_water = mash.get("sparge_water")
 
@@ -267,6 +278,54 @@ def calculate_stage_efficiencies(record: dict) -> dict:
     else:
         result["grain_absorption_rate"] = None
 
+    # ── 糖量与守恒指标 ──────────────────────────────────────────────────
+    # 三个阶段的绝对糖量。注意：洗糟后糖量用「实测煮前体积」（真实收集体积），
+    # 不能用「糖化水+洗糟水」的总水量——麦床残留麦汁比重低于锅内，总水量口径会虚高。
+    sugar_mash = (
+        calculate_actual_extract(strike_water, pre_sparge.get("gravity"))
+        if strike_water is not None and pre_sparge.get("gravity") is not None
+        else None
+    )
+    sugar_kettle = (
+        calculate_actual_extract(pre_boil.get("volume"), pre_boil.get("gravity"))
+        if pre_boil.get("volume") is not None and pre_boil.get("gravity") is not None
+        else None
+    )
+    sugar_boil = (
+        calculate_actual_extract(post_boil.get("volume"), post_boil.get("gravity"))
+        if post_boil.get("volume") is not None and post_boil.get("gravity") is not None
+        else None
+    )
+    result["sugar_mash"] = sugar_mash
+    result["sugar_kettle"] = sugar_kettle
+    result["sugar_boil"] = sugar_boil
+
+    # 同温端比值：洗糟回收率、麦床残留率。两端同温，共同温度偏差会约掉，
+    # 因此比绝对糖量/效率更可靠，可在热端读数未做温补时仍纳入经验值。
+    if sugar_mash and sugar_mash > 0 and sugar_kettle is not None:
+        result["sparge_recovery"] = sugar_kettle / sugar_mash
+        result["retention_ratio"] = (sugar_mash - sugar_kettle) / sugar_mash
+    else:
+        result["sparge_recovery"] = None
+        result["retention_ratio"] = None
+
+    # 跨温端比值：煮沸守恒（煮后糖量应 ≤ 煮前糖量）。煮后通常冷测、煮前热测，
+    # 因此该比值 >1 只作提示，不作为硬剔除依据。
+    if sugar_kettle and sugar_kettle > 0 and sugar_boil is not None:
+        result["boil_ratio"] = sugar_boil / sugar_kettle
+    else:
+        result["boil_ratio"] = None
+
+    # 资格判定：同温端守恒（残留率为负即物理不可能，视为记录错误而剔除）
+    result["hot_consistent"] = (
+        result["retention_ratio"] is not None
+        and -0.02 <= result["retention_ratio"] <= 0.30
+    )
+    result["boil_consistent"] = (
+        result["boil_ratio"] is not None and result["boil_ratio"] <= 1.02
+    )
+    result["eligible"] = bool(result["hot_consistent"])
+
     return result
 
 
@@ -277,36 +336,57 @@ def build_efficiency_table(data_dir: Path = None) -> pd.DataFrame:
     return pd.DataFrame(all_efficiencies)
 
 
-def build_stats_table(df: pd.DataFrame) -> list:
-    """计算各阶段修剪后统计量"""
-    stages = [
-        ("洗糟前提取系数", "pre_sparge_coefficient"),
-        ("洗糟后提取系数", "post_sparge_coefficient"),
-        ("谷物吸收率", "grain_absorption_rate"),
-        ("熬煮后效率", "post_boil_efficiency"),
-        ("熬煮蒸发量", "boil_off"),
-    ]
+"""各过程量的资格口径。
 
+- gate 为该量依赖的资格列：热端/比值量只纳入 ``hot_consistent`` 批次，
+  避免被同温端不自洽（残留率为负）的记录污染；
+- gate 为 ``None`` 表示该量不依赖比重（体积量），纳入全部有值批次；
+- 经验值取**中位数**（对残余离群点稳健），并报告 MAD 与纳入/剔除数。
+"""
+STAGE_METRICS = [
+    ("洗糟前提取系数", "pre_sparge_coefficient", "hot_consistent"),
+    ("洗糟回收率", "sparge_recovery", "hot_consistent"),
+    ("麦床残留率", "retention_ratio", "hot_consistent"),
+    ("谷物吸收率", "grain_absorption_rate", None),
+    ("熬煮后效率", "post_boil_efficiency", None),
+    ("熬煮蒸发量", "boil_off", None),
+]
+
+# CSV 列名映射（内部列名 → 导出列名）
+CSV_KEY = {"boil_off": "boil_off_volume"}
+
+
+def build_stats_table(df: pd.DataFrame) -> tuple:
+    """按资格口径计算各过程量的稳健经验值。"""
     stats_rows = []
     summary_metrics = {}
-    for stage_name, col_name in stages:
-        valid_data = df[col_name].dropna()
-        trimmed_mean, trimmed_std = calculate_trimmed_stats(df[col_name])
+    total = len(df)
 
-        if trimmed_mean is not None:
-            # CSV 列名映射
-            csv_key = col_name if col_name != "boil_off" else "boil_off_volume"
-            summary_metrics[csv_key] = trimmed_mean
+    for stage_name, col_name, gate in STAGE_METRICS:
+        if col_name not in df.columns:
+            continue
+
+        sub = df
+        if gate is not None and gate in df.columns:
+            sub = df[df[gate].fillna(False).astype(bool)]
+
+        series = sub[col_name]
+        valid_data = series.dropna()
+        stat = calculate_robust_stats(series)
+
+        if stat["median"] is not None:
+            summary_metrics[CSV_KEY.get(col_name, col_name)] = stat["median"]
 
         stats_rows.append(
             {
                 "阶段": stage_name,
-                "修剪后平均值": trimmed_mean,
-                "修剪后标准差": trimmed_std,
-                "原始平均值": float(valid_data.mean()) if len(valid_data) > 0 else None,
+                "经验值(中位)": stat["median"],
+                "MAD": stat["mad"],
+                "截尾均值": stat["trimmed_mean"],
                 "最小值": float(valid_data.min()) if len(valid_data) > 0 else None,
                 "最大值": float(valid_data.max()) if len(valid_data) > 0 else None,
-                "样本数": len(valid_data),
+                "纳入": stat["n"],
+                "剔除": total - stat["n"],
             }
         )
 
